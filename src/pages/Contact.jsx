@@ -16,7 +16,7 @@ export default function Contact() {
         e.preventDefault();
 
         // Substitua pelo seu número (DDI + DDD + Número)
-        const meuNumero = "5561999999999";
+        const meuNumero = "5561998340336";
 
         const texto = `Olá Saulo!%0A%0A*Nome:* ${formData.nome}%0A*Email:* ${formData.email}%0A*Mensagem:* ${formData.mensagem}`;
         const url = `https://wa.me/${meuNumero}?text=${texto}`;

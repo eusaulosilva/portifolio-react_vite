@@ -17,7 +17,7 @@ function App() {
         <Skills />
         <Projects />
         <Resume />
-        <Contact /> 
+        <Contact />
       </main>
       <footer className="text-center py-4">
         <p>&copy; 2026 - Desenvolvido por Saulo Silva</p>
