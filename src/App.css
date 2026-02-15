@@ -1,0 +1,756 @@
+/* ==========================================================================
+   1. CONFIGURAÇÕES GLOBAIS, VARIÁVEIS E RESET
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&family=Montserrat:wght@400;600&display=swap');
+
+:root {
+  --cor-primaria: #121212;
+  --cor-secundaria: #f5f5f5;
+  --cor-terciaria: #9322fd;
+  --cor-quartenaria: #6e01b8;
+  --cor-hover: rgba(147, 34, 253, 0.2);
+  --cor-texto-corpo: #a0a0a0;
+  --cor-borda-vidro: rgba(255, 255, 255, 0.1);
+  --cor-bg-vidro: rgba(255, 255, 255, 0.03);
+  --fonte-primaria: 'Krona One', sans-serif;
+  --fonte-secundaria: 'Montserrat', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--cor-primaria);
+  color: var(--cor-secundaria);
+  padding-top: 70px;
+}
+
+h2 {
+  font-family: var(--fonte-primaria);
+}
+
+/* ==========================================================================
+   2. COMPONENTES REUTILIZÁVEIS (CARDS, BOTÕES E ANIMAÇÕES)
+   ========================================================================== */
+
+/* --- Botões Gerais --- */
+.container-conteudo-botao {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  margin-top: 1.5rem;
+  gap: 1.5rem;
+}
+
+.container-conteudo-botao-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--cor-terciaria);
+  border-radius: 5rem;
+  width: 10rem;
+  height: 4rem;
+  cursor: pointer;
+  transition: .5s;
+  background-color: var(--cor-terciaria);
+  font-family: var(--fonte-secundaria);
+  color: var(--cor-secundaria);
+}
+
+.container-conteudo-botao-link svg {
+  width: 2rem;
+  height: 2rem;
+  color: var(--cor-secundaria);
+}
+
+.container-conteudo-botao-link:hover,
+.btn-card:hover {
+  background-color: var(--cor-hover);
+  backdrop-filter: blur(4px);
+  scale: 1.05;
+}
+
+.btn-card {
+  background-color: var(--cor-terciaria);
+  border-color: var(--cor-terciaria);
+  color: var(--cor-secundaria);
+  font-family: var(--fonte-secundaria);
+}
+
+.btn-card:hover {
+  background-color: var(--cor-quartenaria);
+  border-color: var(--cor-quartenaria);
+}
+
+.btn-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.btn-card-container .btn {
+  font-family: var(--fonte-secundaria);
+  text-decoration: none;
+}
+
+/* --- Cards --- */
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--cor-bg-vidro);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--cor-borda-vidro);
+  border-radius: 15px;
+  color: var(--cor-secundaria);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  border-color: var(--cor-terciaria);
+}
+
+/* --- Badges / Skills --- */
+.bg-secondary.btn-skill {
+  background-color: var(--cor-bg-vidro) !important;
+  color: var(--cor-texto-corpo) !important;
+  border: 1px solid var(--cor-borda-vidro);
+  font-family: var(--fonte-secundaria);
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  margin: 3px;
+}
+
+.btn-skill:hover {
+  background-color: var(--cor-hover) !important;
+  color: var(--cor-secundaria) !important;
+  border-color: var(--cor-terciaria);
+  transform: translateY(-2px);
+}
+
+/* --- Animações (Scroll Reveal) --- */
+.hidden {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.show {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+.projeto-caixa .card:nth-child(2) {
+  transition-delay: 200ms;
+}
+
+.projeto-caixa .card:nth-child(3) {
+  transition-delay: 400ms;
+}
+
+/* ==========================================================================
+   3. NAVEGAÇÃO (NAVBAR)
+   ========================================================================== */
+.navbar {
+  min-height: 75px;
+  padding: 0.5rem 1rem !important;
+  background: rgba(18, 18, 18, 0.7) !important;
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  overflow: visible !important;
+}
+
+.navbar-toggler {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.5rem;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(147, 34, 253, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+.navbar-toggler[aria-expanded="true"] {
+  box-shadow: 0 0 15px var(--cor-hover) !important;
+  transition: 0.3s;
+}
+
+.navbar .nav-link {
+  color: var(--cor-secundaria) !important;
+  transition: color 0.3s ease;
+  font-size: 1.2rem;
+  text-decoration: none;
+  position: relative;
+  padding: 5px;
+}
+
+.navbar .nav-link:hover {
+  color: var(--cor-terciaria) !important;
+}
+
+.navbar .nav-link a {
+  color: inherit !important;
+  text-decoration: none;
+}
+
+.navbar-expand-md .navbar-nav {
+  padding: 10px 25px;
+  font-weight: bold;
+}
+
+.nav-item {
+  margin: 0 10px;
+}
+
+.nav-link::after {
+  content: "";
+  height: 2px;
+  width: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, var(--cor-terciaria), var(--cor-quartenaria));
+  transition: width 0.5s ease-in-out, visibility 0.5s;
+  visibility: hidden;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+  visibility: visible;
+}
+
+/* ==========================================================================
+   4. SEÇÃO HERO (TOP CONTAINER)
+   ========================================================================== */
+#top-container.container-fluid {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#top-container.container-fluid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(18, 18, 18, 0.75), rgba(18, 18, 18, 0.9)), url(../img/1.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(10px);
+  transform: scale(1.1);
+  z-index: -1;
+}
+
+.container-conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+}
+
+.container-conteudo-titulo {
+  font-size: 4rem;
+  font-family: var(--fonte-primaria);
+  color: var(--cor-secundaria);
+}
+
+.titulo-destaque {
+  font-size: 2rem;
+  font-family: var(--fonte-primaria);
+  color: var(--cor-terciaria);
+}
+
+/* ==========================================================================
+   5. SEÇÃO SOBRE
+   ========================================================================== */
+.sobre {
+  padding: 5% 10%;
+  gap: 2rem;
+  min-height: 100vh;
+}
+
+.sobre-conteudo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: justify;
+  padding: 0 3%;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.header h2 {
+  font-family: var(--fonte-primaria);
+  font-size: 3rem;
+  color: var(--cor-secundaria);
+  margin-top: 5rem;
+}
+
+.container-conteudo-texto {
+  width: 75%;
+  font-size: 1.3rem;
+  font-family: var(--fonte-secundaria);
+  margin-bottom: 1rem;
+  color: var(--cor-texto-corpo);
+  line-height: 1.6;
+}
+
+.container-imagem {
+  width: 40%;
+}
+
+/* ==========================================================================
+   6. SEÇÃO SKILLS
+   ========================================================================== */
+#skill {
+  background-color: #1a1a1a;
+  color: var(--cor-secundaria);
+  font-family: var(--fonte-secundaria);
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.category h3 {
+  font-family: var(--fonte-primaria);
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 40px;
+  color: var(--cor-secundaria);
+  border-bottom: 1px solid var(--cor-borda-vidro);
+  padding-bottom: 15px;
+}
+
+.skill-item {
+  background: var(--cor-bg-vidro);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--cor-borda-vidro);
+  border-radius: 16px;
+  padding: 16px 24px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 500;
+  color: var(--cor-texto-corpo);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.skill-item img {
+  width: 28px;
+  height: 28px;
+  filter: brightness(0.8) saturate(0.8);
+  transition: filter 0.3s ease;
+}
+
+.skill-item:hover {
+  background: var(--cor-hover);
+  border-color: var(--cor-terciaria);
+  color: var(--cor-secundaria);
+  transform: scale(1.05);
+}
+
+.skill-item:hover img {
+  filter: brightness(1) saturate(1);
+}
+
+/* ==========================================================================
+   7. SEÇÃO PROJETOS
+   ========================================================================== */
+.projetos-section,
+.skills-section,
+.curriculo-section,
+.sobre-section,
+.contato-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3% 5%;
+  align-items: center;
+  gap: 2rem;
+  min-height: 100vh;
+}
+
+.projeto-caixa {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: 2rem;
+  max-width: 1500px;
+  margin: 2rem auto;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.projeto-caixa .card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.projeto-caixa .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   8. SEÇÃO CURRÍCULO E TIMELINE
+   ========================================================================== */
+#curriculo {
+  background-color: #1a1a1a;
+}
+
+.curriculo {
+  min-height: 100vh;
+  padding: 80px 0;
+  font-family: var(--fonte-secundaria);
+}
+
+.resume-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.column-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.icon-box {
+  background: var(--cor-bg-vidro);
+  border: 1px solid var(--cor-terciaria);
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+.timeline {
+  border-left: 2px solid var(--cor-borda-vidro);
+  padding-left: 25px;
+  margin-left: 15px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -32px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  background-color: var(--cor-terciaria);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--cor-terciaria);
+}
+
+.timeline-date {
+  color: var(--cor-terciaria);
+  font-weight: bold;
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+}
+
+.timeline-item h4 {
+  color: var(--cor-secundaria);
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.timeline-institution {
+  color: var(--cor-texto-corpo);
+  font-style: italic;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.timeline-description {
+  color: var(--cor-texto-corpo);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.course-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.course-tags span {
+  background: var(--cor-bg-vidro);
+  border: 1px solid var(--cor-borda-vidro);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--cor-texto-corpo);
+  transition: 0.3s;
+}
+
+.course-tags span:hover {
+  border-color: var(--cor-terciaria);
+  background: var(--cor-hover);
+  color: var(--cor-secundaria);
+}
+
+/* ==========================================================================
+   9. CONTATO E RODAPÉ
+   ========================================================================== */
+.contato {
+  min-height: 100vh;
+}
+
+.container-contato {
+  width: 100%;
+  max-width: 600px;
+  background: var(--cor-bg-vidro);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--cor-borda-vidro);
+  border-radius: 20px;
+  padding: 3rem;
+  margin-bottom: 50px;
+}
+
+.formulario-contato {
+  max-width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.input-group label {
+  font-family: var(--fonte-secundaria);
+  color: var(--cor-secundaria);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--cor-borda-vidro);
+  border-radius: 8px;
+  padding: 0.8rem;
+  color: var(--cor-secundaria);
+  font-family: var(--fonte-secundaria);
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  outline: none;
+  border-color: var(--cor-terciaria);
+  background: rgba(147, 34, 253, 0.05);
+  box-shadow: 0 0 10px rgba(147, 34, 253, 0.2);
+}
+
+.btn-enviar {
+  width: 100% !important;
+  margin-top: 1rem;
+  border: none;
+  gap: 10px;
+}
+
+.btn-enviar:hover {
+  letter-spacing: 1px;
+}
+
+.rodape {
+  color: var(--cor-texto-corpo);
+  padding: 2rem;
+  text-align: center;
+  font-family: var(--fonte-secundaria);
+  font-size: 1rem;
+  border-top: 1px solid var(--cor-borda-vidro);
+}
+
+/* ==========================================================================
+   10. MEDIA QUERIES (RESPONSIVIDADE)
+   ========================================================================== */
+
+/* --- Desktop Grande --- */
+@media (min-width: 1200px) {
+  .projeto-caixa {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* --- Tablets e Desktops Pequenos --- */
+@media (max-width: 1000px) {
+  .container-conteudo-titulo-secundario {
+    margin-top: 3em;
+    font-size: 2rem;
+  }
+
+  .container-conteudo-texto {
+    font-size: 1.2rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --- Dispositivos Móveis --- */
+@media (max-width: 768px) {
+  .navbar .nav-link {
+    font-size: 1.13rem;
+  }
+
+  .resume-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .container-conteudo-titulo {
+    font-size: 2.5rem;
+  }
+
+  .titulo-destaque {
+    font-size: 1.2rem;
+  }
+
+  .container-conteudo-botao {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .container-conteudo-botao-link {
+    width: 10rem;
+    height: 3rem;
+  }
+
+  .container-conteudo-botao-link svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .container-conteudo-titulo-secundario {
+    margin-top: 3em;
+    font-size: 1.5rem;
+  }
+
+  .container-conteudo-texto,
+  .rodape {
+    font-size: .89rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    margin: 1rem;
+  }
+
+  .header h2 {
+    font-size: 2.3rem;
+  }
+
+  .rodape {
+    font-size: 0.7rem;
+  }
+
+  .container-contato {
+    padding: 1.5rem;
+    width: 90%;
+  }
+}
+
+/* --- Smartphones muito pequenos --- */
+@media (max-width: 450px) {
+  .btn-card-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 .5rem;
+  }
+
+  .btn-card-container a {
+    width: 100%;
+    display: block;
+    text-align: center;
+    
+  }
+
+  .projeto-caixa {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin: 1rem auto;
+  }
+}
+
+@media (max-width: 400px) {
+  .projeto-caixa {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
