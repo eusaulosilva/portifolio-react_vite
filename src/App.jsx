@@ -19,7 +19,7 @@ function App() {
         <Resume />
         <Contact />
       </main>
-      <footer className="text-center py-4">
+      <footer className="rodape">
         <p>&copy; 2026 - Desenvolvido por Saulo Silva</p>
       </footer>
     </div>
