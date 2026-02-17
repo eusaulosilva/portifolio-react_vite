@@ -20,7 +20,7 @@ function App() {
         <Contact />
       </main>
       <footer className="rodape">
-        <p>&copy; 2026 - Desenvolvido por Saulo Silva</p>
+        <p>&copy; 2026 - Saulo Silva</p>
       </footer>
     </div>
   )
