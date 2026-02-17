@@ -24,5 +24,9 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: ./ 
+          server-dir: ./
+          protocol: ftp
+          port: 21
+          # Configurações para evitar Timeout e pastas duplicadas:
+          log-level: verbose
           state-name: .ftp-deploy-sync-state.json # Ajuda na sincronização
