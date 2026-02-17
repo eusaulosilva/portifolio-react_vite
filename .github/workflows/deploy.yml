@@ -24,6 +24,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: ./public_html/
-          protocol: ftp # Força o uso de FTP simples se o FTPS falhar
-          port: 21      # Garante que está usando a porta padrão
+          server-dir: public_html/  # Removido o ./ do início
+          state-name: .ftp-deploy-sync-state.json # Ajuda na sincronização
