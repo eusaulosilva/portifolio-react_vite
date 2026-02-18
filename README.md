@@ -33,7 +33,7 @@ Este projeto possui um workflow de **GitHub Actions** configurado. Sempre que um
 
 1. Clone o repositório:
     ```bash
-    git clone https://github.com/eusaulosilva/portifolio-react_vite.git](https://github.com/eusaulosilva/portifolio-react_vite.git
+    git clone https://github.com/eusaulosilva/portifolio-react_vite.git
     ```
 2. Instale as dependências:
     ```bash
