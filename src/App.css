@@ -424,7 +424,7 @@ h2 {
 
 .projeto-caixa {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
   gap: 2rem;
   max-width: 1500px;
   margin: 2rem auto;
@@ -636,15 +636,8 @@ h2 {
    10. MEDIA QUERIES (RESPONSIVIDADE)
    ========================================================================== */
 
-/* --- Desktop Grande --- */
-@media (min-width: 1200px) {
-  .projeto-caixa {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
 /* --- Tablets e Desktops Pequenos --- */
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .container-conteudo-titulo-secundario {
     margin-top: 3em;
     font-size: 2rem;
@@ -656,6 +649,10 @@ h2 {
 
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .projeto-caixa {
+    grid-template-columns: repeat(auto-fill, minmax(min(33.33%, 20rem), 1fr));
   }
 }
 
@@ -722,6 +719,11 @@ h2 {
     padding: 1.5rem;
     width: 90%;
   }
+
+  .projeto-caixa {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: 1.5rem;
+  }
 }
 
 /* --- Smartphones muito pequenos --- */
@@ -738,7 +740,7 @@ h2 {
     width: 100%;
     display: block;
     text-align: center;
-    
+
   }
 
   .projeto-caixa {
@@ -748,9 +750,3 @@ h2 {
   }
 }
 
-@media (max-width: 400px) {
-  .projeto-caixa {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
