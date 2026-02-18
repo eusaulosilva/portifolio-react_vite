@@ -337,6 +337,7 @@ h2 {
   margin-bottom: 1rem;
   color: var(--cor-texto-corpo);
   line-height: 1.6;
+  text-indent: 2em;
 }
 
 .container-imagem {
