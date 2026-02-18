@@ -6,6 +6,7 @@ import Skills from './pages/Skills';
 import Projects from './pages/Projects';
 import Resume from './pages/Resume';
 import Contact from './pages/Contact';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -19,9 +20,7 @@ function App() {
         <Resume />
         <Contact />
       </main>
-      <footer className="rodape">
-        <p>&copy; 2026 - Saulo Silva</p>
-      </footer>
+      <Footer />
     </div>
   )
 }

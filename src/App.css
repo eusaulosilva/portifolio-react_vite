@@ -624,14 +624,99 @@ h2 {
   letter-spacing: 1px;
 }
 
-.rodape {
-  color: var(--cor-texto-corpo);
-  padding: 2rem;
-  text-align: center;
-  font-family: var(--fonte-secundaria);
-  font-size: 1rem;
+/* Estilos específicos para o Footer */
+.footer-wrapper {
   border-top: 1px solid var(--cor-borda-vidro);
+  background-color: var(--cor-primaria);
+  padding: 2rem 2rem 2rem 2rem;
+  font-family: var(--fonte-secundaria);
 }
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+  gap: 2rem;
+  
+}
+
+.footer-brand {
+  text-align: left;
+  max-width: 400px;
+  
+}
+
+.footer-brand a {
+
+  font-weight: bold;
+  font-size: 1.3rem;
+  text-decoration: none;
+  color: var(--cor-terciaria);
+}
+
+.footer-brand p {
+  font-size: 0.875rem;
+  color: var(--cor-texto-corpo);
+}
+
+
+.footer-nav-links {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-nav-links a {
+  color: var(--cor-texto-corpo);
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: color 0.3s ease;
+}
+
+.footer-nav-links a:hover {
+  color: var(--cor-terciaria);
+}
+
+.footer-social-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.footer-social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid var(--cor-borda-vidro);
+  color: var(--cor-secundaria);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.footer-social-icon:hover {
+  background-color: var(--cor-bg-vidro);
+  border-color: var(--cor-terciaria);
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cor-borda-vidro);
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--cor-texto-corpo);
+}
+
+
 
 /* ==========================================================================
    10. MEDIA QUERIES (RESPONSIVIDADE)
@@ -725,6 +810,16 @@ h2 {
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
     gap: 1.5rem;
   }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-brand {
+    text-align: center;
+  }
+  
 }
 
 /* --- Smartphones muito pequenos --- */
