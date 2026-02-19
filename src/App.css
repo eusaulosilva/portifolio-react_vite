@@ -657,6 +657,10 @@ h2 {
   color: #f87171;
   border: 1px solid rgba(248, 113, 113, 0.2);
 }
+.btn-enviar.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
 
 @keyframes slideUp {
   from {

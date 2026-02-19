@@ -27,14 +27,17 @@ export default function Contact() {
                 body: JSON.stringify(formData),
             });
 
+            const result = await response.json();
+
             if (response.ok) {
                 setStatus({ message: 'E-mail enviado com sucesso! Responderemos em breve.', type: 'success' });
                 setFormData({ nome: '', email: '', assunto: '', mensagem: '' });
             } else {
-                setStatus({ message: 'Ops! Algo deu errado. Tente novamente.', type: 'error' });
+                // Aqui capturamos a mensagem personalizada da API (com o e-mail direto)
+                setStatus({ message: result.message || 'Ops! Algo deu errado. Tente novamente.', type: 'error' });
             }
         } catch (error) {
-            setStatus({ message: 'Erro de conexão. Verifique sua internet.', type: 'error' });
+            setStatus({ message: 'Erro de conexão. Se preferir, use: contato@eusaulosilva.com.br', type: 'error' });
         } finally {
             setLoading(false);
             // Remove a mensagem após 6 segundos para manter a UI limpa
