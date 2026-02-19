@@ -417,7 +417,7 @@ h2 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 3% 5%;
+  padding: 2% 5%;
   align-items: center;
   gap: 2rem;
   min-height: 100vh;
@@ -557,32 +557,33 @@ h2 {
 /* ==========================================================================
    9. CONTATO E RODAPÉ
    ========================================================================== */
-.contato {
-  min-height: 100vh;
-}
 
 .container-contato {
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   background: var(--cor-bg-vidro);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--cor-borda-vidro);
   border-radius: 20px;
-  padding: 3rem;
-  margin-bottom: 50px;
+  padding: 2rem;
 }
 
 .formulario-contato {
   max-width: 100%;
   padding: 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Aumenta o espaço entre cada campo */
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  /* Espaço entre o nome do campo e onde digita */
   text-align: left;
 }
 
@@ -613,15 +614,109 @@ h2 {
   box-shadow: 0 0 10px rgba(147, 34, 253, 0.2);
 }
 
-.btn-enviar {
+/* ... seus estilos anteriores continuam aqui ... */
+
+.container-conteudo-botao-link.btn-enviar {
   width: 100% !important;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   border: none;
   gap: 10px;
+  cursor: pointer;
 }
 
-.btn-enviar:hover {
-  letter-spacing: 1px;
+.btn-enviar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Nova área de mensagem de status */
+.status-message {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  font-family: var(--fonte-secundaria);
+
+  /* Animação suave de entrada */
+  animation: slideUp 0.4s ease forwards;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.status-message.success {
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.status-message.error {
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.2);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-contato-direto {
+  width: 90%;
+  margin: 0 auto;
+  background: var(--cor-bg-vidro);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--cor-borda-vidro);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+
+}
+
+
+
+.conteudo-direto {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icone-contato {
+  width: 24px;
+  height: 24px;
+  color: var(--cor-terciaria);
+  /* Cor de destaque */
+}
+
+.label-direto {
+  font-family: var(--fonte-secundaria);
+  font-size: 0.8rem;
+  color: var(--cor-secundaria);
+  opacity: 0.7;
+  margin: 0;
+}
+
+.link-direto {
+  font-family: var(--fonte-secundaria);
+  color: var(--cor-secundaria);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.link-direto:hover {
+  color: var(--cor-terciaria);
 }
 
 /* Estilos específicos para o Footer */
@@ -640,13 +735,13 @@ h2 {
 
   justify-content: space-between;
   gap: 2rem;
-  
+
 }
 
 .footer-brand {
   text-align: left;
   max-width: 400px;
-  
+
 }
 
 .footer-brand a {
@@ -819,6 +914,16 @@ h2 {
   .footer-brand {
     text-align: center;
   }
+
+  .link-direto, .info-direto{
+    font-size: 0.7rem;
+  }
+  .card-contato-direto{
+    padding: 1rem;
+
+  
+  }
+
   
 }
 
@@ -845,4 +950,3 @@ h2 {
     margin: 1rem auto;
   }
 }
-
