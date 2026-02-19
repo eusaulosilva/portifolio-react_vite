@@ -320,7 +320,7 @@ h2 {
 
 .header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 
 .header h2 {
@@ -582,8 +582,6 @@ h2 {
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  /* Espaço entre o nome do campo e onde digita */
   text-align: left;
 }
 
@@ -592,6 +590,7 @@ h2 {
   color: var(--cor-secundaria);
   font-weight: 600;
   font-size: 0.9rem;
+  margin-bottom: 0.5rem;
 }
 
 .input-group input,
@@ -599,8 +598,8 @@ h2 {
   width: 100%;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--cor-borda-vidro);
-  border-radius: 8px;
-  padding: 0.8rem;
+  border-radius: 10px ;
+  padding: 0.5rem;
   color: var(--cor-secundaria);
   font-family: var(--fonte-secundaria);
   transition: all 0.3s ease;
