@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+let timerMessage;
 export default function Contact() {
     const [formData, setFormData] = useState({
         nome: '',
@@ -20,6 +20,9 @@ export default function Contact() {
         setLoading(true);
         setStatus({ message: '', type: '' });
 
+        // Limpa qualquer timer que já esteja rodando de um clique anterior
+        if (timerMessage) clearTimeout(timerMessage);
+
         try {
             const response = await fetch('https://api.eusaulosilva.com.br/api/enviar-email', {
                 method: 'POST',
@@ -30,18 +33,20 @@ export default function Contact() {
             const result = await response.json();
 
             if (response.ok) {
-                setStatus({ message: 'E-mail enviado com sucesso! Responderemos em breve.', type: 'success' });
+                setStatus({ message: result.message, type: 'success' });
                 setFormData({ nome: '', email: '', assunto: '', mensagem: '' });
             } else {
-                // Aqui capturamos a mensagem personalizada da API (com o e-mail direto)
-                setStatus({ message: result.message || 'Ops! Algo deu errado. Tente novamente.', type: 'error' });
+                setStatus({ message: result.message || 'Ops! Algo deu errado.', type: 'error' });
             }
         } catch (error) {
             setStatus({ message: 'Erro de conexão. Se preferir, use: contato@eusaulosilva.com.br', type: 'error' });
         } finally {
             setLoading(false);
-            // Remove a mensagem após 6 segundos para manter a UI limpa
-            setTimeout(() => setStatus({ message: '', type: '' }), 6000);
+
+            // Atribui o novo timer à variável
+            timerMessage = setTimeout(() => {
+                setStatus({ message: '', type: '' });
+            }, 15000); // Agora os 15 segundos serão contados do zero após o fim da requisição
         }
     };
 
