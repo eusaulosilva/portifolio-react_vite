@@ -446,7 +446,9 @@ h2 {
   display: flex;
   flex-direction: column;
 }
-
+.card-body {
+    flex-grow: 1; /* Faz o corpo do card ocupar o resto do espaço */
+}
 /* ==========================================================================
    8. SEÇÃO CURRÍCULO E TIMELINE
    ========================================================================== */
