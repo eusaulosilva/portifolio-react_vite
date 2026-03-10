@@ -19,7 +19,7 @@ const About = () => {
                         No desenvolvimento de software, foco na construção de aplicações modernas e escaláveis.
                         Utilizo o ecossistema <strong>JavaScript (React, Next.js e Node.js)</strong> para entregar
                         soluções completas, além de dominar tecnologias mobile como <strong>Flutter
-                            e React Native</strong>. Um exemplo desse trabalho é o ManScan, um projeto autoral voltado
+                        </strong>. Um exemplo desse trabalho é o ManScan, um projeto autoral voltado
                         para a saúde masculina que integra tecnologia e impacto social.
                     </p>
                     <p className="container-conteudo-texto">
