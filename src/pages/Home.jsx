@@ -3,7 +3,7 @@ const Home = () => {
         <div id="top-container" className="container-fluid">
             <section className="container-conteudo">
                 <h1 className="container-conteudo-titulo">Saulo Silva</h1>
-                <h2 className="titulo-destaque"> Desenvolvedor Front-End | Cientista de Dados</h2>
+                <h2 className="titulo-destaque"> Saulo Silva | Desenvolvedor de Software & Analista de Dados</h2>
                 <div className="container-conteudo-botao">
                     <a className="container-conteudo-botao-link" href="https://linkedin.com/in/eusaulosilva"
                         target="_blank">
