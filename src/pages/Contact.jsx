@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 let timerMessage;
 export default function Contact() {
     const [formData, setFormData] = useState({
@@ -52,6 +53,11 @@ export default function Contact() {
 
     return (
         <section id="contato" className="container-fluid">
+            <Helmet>
+                <title>Contacto | Saulo Silva - Analista de Dados & Dev</title>
+                <meta name="description" content="Entre em contacto com Saulo Silva para projetos de Análise de Dados, Desenvolvimento Full Stack ou parcerias tecnológicas. Disponível para novas oportunidades." />
+                <link rel="canonical" href="https://eusaulosilva.com.br/#contato" />
+            </Helmet>
             <div className="contato-section">
                 <div className="header"><h2>Contato</h2></div>
                 <div className="container-contato">

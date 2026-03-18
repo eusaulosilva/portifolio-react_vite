@@ -1,9 +1,15 @@
 import TimelineItem from '../components/TimelineItem';
+import { Helmet } from 'react-helmet-async';
 import { coursesData } from '../data/content';
 
 export default function Resume() {
     return (
         <section id="curriculo" className="container-fluid">
+            <Helmet>
+                <title>Currículo e Experiência | Saulo Silva</title>
+                <meta name="description" content="Trajetória profissional de Saulo Silva: Analista de Dados no Banco do Brasil e graduado em Ciência da Computação. Confira formação e histórico profissional." />
+                <link rel="canonical" href="https://eusaulosilva.com.br/#curriculo" />
+            </Helmet>
             <div className="curriculo-section">
                 <div className="header">
                     <h2>Educação & Experiência</h2>

@@ -1,7 +1,12 @@
-
+import { Helmet } from 'react-helmet-async';
 const About = () => {
     return (
         <div id="sobre" className="container-fluid">
+            <Helmet>
+                <title>Sobre Saulo Silva | Ciência da Computação UDF</title>
+                <meta name="description" content="Conheça a trajetória de Saulo Silva, graduado em Ciência da Computação pelo UDF e a sua atuação profissional no Banco do Brasil." />
+                <link rel="canonical" href="https://eusaulosilva.com.br/#sobre" />
+            </Helmet>
             <section className="sobre-section">
                 <div className="header">
                     <h2>Sobre mim</h2>
