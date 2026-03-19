@@ -8,8 +8,6 @@ export default defineConfig({
     Sitemap({
       hostname: 'https://eusaulosilva.com.br',
       filename: 'sitemaptudonossoenadadeles.xml',
-      // Como o seu App.jsx mostra que tudo está em uma página (Single Page), 
-      // o hostname principal já basta, mas você pode listar as seções:
       dynamicRoutes: ['/', '#sobre', '#skills', '#projetos', '#curriculo', '#contato']
     }),
   ],
