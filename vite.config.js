@@ -7,7 +7,6 @@ export default defineConfig({
     react(),
     Sitemap({
       hostname: 'https://eusaulosilva.com.br',
-      filename: 'sitemaptudonossonadadeles.xml',
       dynamicRoutes: ['/', '#sobre', '#skills', '#projetos', '#curriculo', '#contato']
     }),
   ],
