@@ -1,15 +1,9 @@
-import { Helmet } from 'react-helmet-async';
 const Home = () => {
     return (
         <div id="top-container" className="container-fluid">
-            <Helmet>
-                <title>Saulo Silva | Analista de Dados & Full Stack Developer</title>
-                <meta name="description" content="Portfólio de Saulo Silva. Analista de Dados no Banco do Brasil e Desenvolvedor Full Stack especializado em React, Node.js e Flutter." />
-                <link rel="canonical" href="https://eusaulosilva.com.br/" />
-            </Helmet>
             <section className="container-conteudo">
                 <h1 className="container-conteudo-titulo">Saulo Silva</h1>
-                <h2 className="titulo-destaque">Desenvolvedor Full Stack & Analista de Dados</h2>
+                <h2 className="titulo-destaque"> Desenvolvedor Front-End | Cientista de Dados</h2>
                 <div className="container-conteudo-botao">
                     <a className="container-conteudo-botao-link" href="https://linkedin.com/in/eusaulosilva"
                         target="_blank">
