@@ -28,7 +28,7 @@ const Footer = () => {
                         Saulo Silva
                     </a>
                     <p>
-                        Desenvolvedor Full Stack & Cientista de Dados
+                        Desenvolvedor Full Stack & Analista de Dados
                     </p>
                 </div>
 

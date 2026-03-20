@@ -10,7 +10,8 @@ export default defineConfig({
       filename: 'sitemaptudonossoenadadeles.xml',
       // Como o seu App.jsx mostra que tudo está em uma página (Single Page), 
       // o hostname principal já basta, mas você pode listar as seções:
-      dynamicRoutes: ['/', '#sobre', '#skills', '#projetos', '#curriculo', '#contato']
+      dynamicRoutes: ['/', '#sobre', '#skills', '#projetos', '#curriculo', '#contato'],
+      readable: true,
     }),
   ],
   base: './',
