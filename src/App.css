@@ -980,4 +980,7 @@ h2 {
     margin-bottom: 1.5rem;
 
   }
+  #top-container.container-fluid {
+    min-height: 90vh;
+  }
 }
