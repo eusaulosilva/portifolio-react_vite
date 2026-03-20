@@ -260,7 +260,7 @@ h2 {
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid var(--cor-borda-vidro);
-
+  transform: scale(1.05);
 }
 
 #top-container.container-fluid::before {
