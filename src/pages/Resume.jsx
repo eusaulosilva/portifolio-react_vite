@@ -50,9 +50,9 @@ export default function Resume() {
                                 institution="Banco do Brasil"
                                 description="Extração de informações estratégicas e análise de indicadores financeiros utilizando SQL e Power BI."
                             />
-<TimelineItem
-    date="Abr/2026 - Atual"
-    title="Assistente Administrativo"
+																							<TimelineItem
+   																							 date="Abr/2026 - Atual"
+    																							title="Assistente Administrativo"
     institution="UDF Centro Universitário"
     description="Suporte administrativo acadêmico e gestão de dados discentes/docentes. Atuação na conferência de arquivos de graduação e automação de processos via sistema SIAA e Excel."
 />
