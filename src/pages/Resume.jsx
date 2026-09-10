@@ -25,11 +25,12 @@ export default function Resume() {
                                 description="Formação concluída com foco em desenvolvimento e análise de dados."
                             />
 <TimelineItem
-    date="Conclusão: Dez/2025"
-    title="Ciência da Computação (Bacharelado)"
-    institution="UDF (Centro Universitário do Distrito Federal)"
-    description="Formação concluída com foco em desenvolvimento e análise de dados."
+    date="Em andamento"
+    title="Ciência de Dados e Big Data Analytics (Pós-Graduação)"
+    institution="Cruzeiro do Sul (EAD)"
+    description="Especialização voltada à análise avançada de dados, engenharia de dados e modelos preditivos."
 />
+
 
                         </div>
 
