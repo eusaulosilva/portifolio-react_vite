@@ -24,6 +24,13 @@ export default function Resume() {
                                 institution="UDF (Centro Universitário do Distrito Federal)"
                                 description="Formação concluída com foco em desenvolvimento e análise de dados."
                             />
+<TimelineItem
+    date="Conclusão: Dez/2025"
+    title="Ciência da Computação (Bacharelado)"
+    institution="UDF (Centro Universitário do Distrito Federal)"
+    description="Formação concluída com foco em desenvolvimento e análise de dados."
+/>
+
                         </div>
 
                         {/* Inclusão dos Cursos Especializados com as classes originais */}
