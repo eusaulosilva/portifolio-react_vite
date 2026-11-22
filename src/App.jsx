@@ -121,11 +121,21 @@ function App() {
                     <meta property="og:type" content="website" />
                     <meta property="og:url" content={profileData.siteUrl} />
                     <meta property="og:image" content={profileData.ogImage} />
+                    <meta property="og:image:width" content="1200" />
+                    <meta property="og:image:height" content="630" />
+                    <meta
+                        property="og:image:alt"
+                        content={`${profileData.name} — ${profileData.role}`}
+                    />
 
                     <meta name="twitter:card" content="summary_large_image" />
                     <meta name="twitter:title" content={`${profileData.name} | ${profileData.role}`} />
                     <meta name="twitter:description" content={profileData.description} />
                     <meta name="twitter:image" content={profileData.ogImage} />
+                    <meta
+                        name="twitter:image:alt"
+                        content={`${profileData.name} — ${profileData.role}`}
+                    />
 
                     <script type="application/ld+json">
                         {JSON.stringify(personStructuredData)}

@@ -9,7 +9,7 @@ export const profileData = {
     phoneHref: "+5561998340336",
     siteUrl: "https://eusaulosilva.com.br/",
     siteDisplay: "www.eusaulosilva.com.br",
-    ogImage: "https://eusaulosilva.com.br/img/og-cover.jpg",
+    ogImage: "https://eusaulosilva.com.br/img/og-cover.jpg?v=2",
     email: "contato@eusaulosilva.com.br",
     resumeEmail: "saulo.oliveira209939@gmail.com",
     apiContactUrl: "https://api.eusaulosilva.com.br/api/enviar-email",
