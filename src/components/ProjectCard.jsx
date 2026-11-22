@@ -1,49 +1,70 @@
-export default function ProjectCard({ title, description, techs, link, img, githubicon, demo, abiricon }) {
+import { ExternalLinkIcon, GitHubIcon, MailIcon } from './Icons';
+
+export default function ProjectCard({ title, category, description, techs, link, img, demo }) {
     return (
-        <div className="card">
-            <img src={img} className="card-img-top" alt={`Preview do projeto ${title}`} />
+        <article className="card project-card">
+            <div className="project-card-media">
+                <img
+                    src={img}
+                    className="card-img-top"
+                    alt={`Preview do projeto ${title}`}
+                    loading="lazy"
+                    decoding="async"
+                />
+                {category && <span className="project-category-badge">{category}</span>}
+            </div>
+
             <div className="card-body">
-                <h5 className="card-title">{title}</h5>
+                <h3 className="card-title">{title}</h3>
                 <p className="card-text">{description}</p>
 
-                <div className="flex flex-wrap gap-2 mb-6">
-                    {techs.map((tech, i) => (
-                        <span key={i} className="px-3 py-1 bg-secondary btn-skill">
+                <div className="tech-badges" aria-label={`Tecnologias utilizadas em ${title}`}>
+                    {techs.map((tech) => (
+                        <span key={tech} className="btn-skill">
                             {tech}
                         </span>
                     ))}
                 </div>
 
                 <div className="btn-card-container">
-                    <a
-                        href={link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-card btn btn-primary d-flex align-items-center justify-content-center gap-2"
-                    >
-                        <span
-                            className="d-flex align-items-center"
-                            dangerouslySetInnerHTML={{ __html: githubicon }}
-                        />
-                        GitHub
-                    </a>
+                    {link && (
+                        <a
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-card"
+                            aria-label={`Ver código-fonte de ${title} no GitHub`}
+                        >
+                            <GitHubIcon size={16} />
+                            <span>GitHub</span>
+                        </a>
+                    )}
 
                     {demo && (
                         <a
                             href={demo}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn-card btn btn-primary d-flex align-items-center justify-content-center gap-2"
+                            className="btn-card btn-card-outline"
+                            aria-label={`Abrir demonstração do projeto ${title}`}
                         >
-                            <span
-                                className="d-flex align-items-center"
-                                dangerouslySetInnerHTML={{ __html: abiricon }}
-                            />
-                            Visualizar
+                            <ExternalLinkIcon size={15} />
+                            <span>Visualizar</span>
+                        </a>
+                    )}
+
+                    {!link && !demo && (
+                        <a
+                            href="#contato"
+                            className="btn-card btn-card-outline"
+                            aria-label={`Solicitar detalhes sobre o projeto ${title}`}
+                        >
+                            <MailIcon size={15} />
+                            <span>Solicitar detalhes</span>
                         </a>
                     )}
                 </div>
             </div>
-        </div>
+        </article>
     );
 }

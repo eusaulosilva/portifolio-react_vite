@@ -1,12 +1,45 @@
-export default function SkillItem({ name, icon }) {
+import { useState } from 'react';
+import { ApiIcon, ExcelIcon, PowerBIIcon, StreamlitIcon } from './Icons';
+
+function CustomSkillIcon({ icon }) {
+    switch (icon) {
+        case 'powerbi':
+            return <PowerBIIcon size={28} className="skill-custom-icon" />;
+        case 'streamlit':
+            return <StreamlitIcon size={28} className="skill-custom-icon" />;
+        case 'excel':
+            return <ExcelIcon size={28} className="skill-custom-icon" />;
+        case 'api':
+            return <ApiIcon size={28} className="skill-custom-icon" />;
+        default:
+            return null;
+    }
+}
+
+export default function SkillItem({ name, icon, customIcon }) {
+    const [imgError, setImgError] = useState(false);
+
     return (
-        // Removido o uso de 'styles.algo' e mantido apenas a sua classe original
         <div className="skill-item">
-            <img
-                src={`https://skillicons.dev/icons?i=${icon}`}
-                alt={`${name} icon`}
-            />
-            {name}
+            {customIcon ? (
+                <CustomSkillIcon icon={icon} />
+            ) : imgError ? (
+                <span className="skill-fallback-icon" aria-hidden="true">
+                    {name.slice(0, 2).toUpperCase()}
+                </span>
+            ) : (
+                <img
+                    src={`https://skillicons.dev/icons?i=${icon}`}
+                    alt=""
+                    aria-hidden="true"
+                    width="28"
+                    height="28"
+                    loading="lazy"
+                    decoding="async"
+                    onError={() => setImgError(true)}
+                />
+            )}
+            <span>{name}</span>
         </div>
     );
 }

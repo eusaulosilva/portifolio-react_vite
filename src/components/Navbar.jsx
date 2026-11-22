@@ -1,63 +1,95 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { navLinks, profileData } from '../data/content';
+import { useActiveSection } from '../hooks/useActiveSection';
 
 const Navbar = () => {
-    // Estado para controlar se o menu está aberto ou fechado
     const [isNavExpanded, setIsNavExpanded] = useState(false);
+    const sectionIds = useMemo(() => navLinks.map((item) => item.id), []);
+    const { activeSection, scrollProgress, isScrolled } = useActiveSection(sectionIds);
 
-    // Função para fechar o menu
     const closeMenu = () => setIsNavExpanded(false);
+
+    useEffect(() => {
+        if (!isNavExpanded) return;
+
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                setIsNavExpanded(false);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isNavExpanded]);
 
     return (
         <header>
-            <nav className="navbar navbar-expand-md bg-body-tertiary">
-                <div className="container-fluid">
-
-                    {/* Botão Toggler: Agora controlado pelo isNavExpanded */}
-                    <button
-                        className="navbar-toggler ms-auto"
-                        type="button"
-                        onClick={() => setIsNavExpanded(!isNavExpanded)}
-                        aria-label="Toggle navigation"
+            <nav
+                className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}
+                aria-label="Navegação principal"
+            >
+                <div className="navbar-inner">
+                    <a
+                        className="navbar-brand-custom"
+                        href="#inicio"
+                        onClick={closeMenu}
+                        aria-label={`${profileData.name} - Voltar ao início`}
                     >
-                        <span className="navbar-toggler-icon"></span>
+                        {profileData.brand}
+                        <span>{profileData.brandAccent}</span>
+                    </a>
+
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        onClick={() => setIsNavExpanded((prev) => !prev)}
+                        aria-controls="navbarNav"
+                        aria-expanded={isNavExpanded}
+                        aria-label={isNavExpanded ? 'Fechar menu de navegação' : 'Abrir menu de navegação'}
+                    >
+                        <span className="navbar-toggler-icon" />
                     </button>
 
-                    {/* Div do Menu: Adicionamos a classe 'show' baseada no estado */}
-                    <div className={`collapse navbar-collapse ${isNavExpanded ? 'show' : ''}`} id="navbarNav">
-                        <ul className="navbar-nav mx-auto text-center">
-                            <li className="nav-item">
-                                <a className="nav-link" href="#" onClick={closeMenu}>Home</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#sobre" onClick={closeMenu}>Sobre mim</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#skill" onClick={closeMenu}>Skill</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#projetos" onClick={closeMenu}>Projetos</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#curriculo" onClick={closeMenu}>Currículo</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#contato" onClick={closeMenu}>Contato</a>
-                            </li>
+                    <div
+                        className={`navbar-collapse ${isNavExpanded ? 'show' : ''}`}
+                        id="navbarNav"
+                    >
+                        <ul className="navbar-nav">
+                            {navLinks.map((link) => {
+                                const isActive = activeSection === link.id;
+                                return (
+                                    <li className="nav-item" key={link.id}>
+                                        <a
+                                            className={`nav-link ${isActive ? 'active' : ''}`}
+                                            href={link.href}
+                                            onClick={closeMenu}
+                                            aria-current={isActive ? 'location' : undefined}
+                                        >
+                                            {link.label}
+                                        </a>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
                 </div>
+
+                <div
+                    className="scroll-progress-bar"
+                    style={{ width: `${scrollProgress}%` }}
+                    aria-hidden="true"
+                />
             </nav>
 
-            {/* Overlay invisível: Fecha o menu se clicar em qualquer lugar da tela (opcional) */}
             {isNavExpanded && (
                 <div
-                    className="fixed-top vh-100"
-                    style={{ zIndex: 1040, background: 'transparent' }}
+                    className="navbar-backdrop"
                     onClick={closeMenu}
+                    aria-hidden="true"
                 />
             )}
         </header>
     );
-}
+};
 
 export default Navbar;

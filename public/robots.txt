@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://eusaulosilva.com.br/sitemap.xml

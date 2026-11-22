@@ -1,0 +1,844 @@
+/* ==========================================================================
+   MODAL DE CURRÍCULO DINÂMICO (PRÉVIA A4 + SELETOR + IMPRESSÃO PDF)
+   ========================================================================== */
+.resume-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(8, 8, 12, 0.84);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeInModal 0.2s ease-out;
+}
+
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.resume-modal-shell {
+  width: 100%;
+  max-width: 920px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  background: #14141a;
+  border: 1px solid rgba(192, 132, 252, 0.25);
+  border-radius: 18px;
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+.resume-modal-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 1.35rem;
+  background: #101015;
+  border-bottom: 1px solid var(--cor-borda-vidro);
+}
+
+.resume-modal-toolbar-info h2 {
+  font-family: var(--fonte-primaria);
+  font-size: 0.96rem;
+  margin: 0 0 0.2rem;
+  color: var(--cor-secundaria);
+}
+
+.resume-modal-hint {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--cor-texto-corpo);
+}
+
+.resume-modal-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.resume-picker-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--cor-secundaria);
+  cursor: pointer;
+  padding: 0.48rem 0.9rem;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--cor-borda-vidro);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.resume-picker-toggle:hover,
+.resume-picker-toggle.is-open {
+  background: rgba(147, 34, 253, 0.16);
+  border-color: rgba(192, 132, 252, 0.45);
+  color: #ffffff;
+}
+
+.resume-btn-print {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 10px;
+  border: 1px solid rgba(192, 132, 252, 0.45);
+  background: linear-gradient(135deg, var(--cor-terciaria), var(--cor-quartenaria));
+  color: #ffffff;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resume-btn-print:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(147, 34, 253, 0.38);
+}
+
+.resume-btn-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--cor-borda-vidro);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--cor-secundaria);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.resume-btn-close:hover {
+  background: rgba(248, 113, 113, 0.16);
+  border-color: rgba(248, 113, 113, 0.45);
+  color: #fca5a5;
+}
+
+/* Seletor interativo de projetos */
+.resume-project-picker {
+  padding: 0.8rem 1.35rem;
+  background: #14141b;
+  border-bottom: 1px solid var(--cor-borda-vidro);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.resume-picker-presets {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.resume-picker-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--cor-texto-corpo);
+  margin-right: 0.25rem;
+}
+
+.resume-preset-btn {
+  padding: 0.24rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--cor-borda-vidro);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--cor-texto-corpo);
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.resume-preset-btn:hover {
+  border-color: var(--cor-terciaria-clara);
+  color: #ffffff;
+}
+
+.resume-preset-btn.active {
+  background: rgba(147, 34, 253, 0.24);
+  border-color: var(--cor-terciaria-clara);
+  color: #ffffff;
+}
+
+.resume-preset-clear:hover {
+  border-color: rgba(248, 113, 113, 0.5);
+  color: #fca5a5;
+}
+
+.resume-picker-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.resume-picker-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.34rem 0.72rem;
+  border-radius: 8px;
+  border: 1px solid var(--cor-borda-vidro);
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--cor-texto-corpo);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.resume-picker-chip:hover {
+  border-color: rgba(192, 132, 252, 0.4);
+  color: var(--cor-secundaria);
+}
+
+.resume-picker-chip.selected {
+  background: rgba(147, 34, 253, 0.18);
+  border-color: rgba(192, 132, 252, 0.55);
+  color: #ffffff;
+}
+
+.resume-chip-check {
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.resume-picker-chip.selected .resume-chip-check {
+  background: var(--cor-terciaria);
+  border-color: var(--cor-terciaria-clara);
+  color: #ffffff;
+}
+
+.resume-modal-body {
+  overflow-y: auto;
+  padding: 1.75rem;
+  background: #1d1d24;
+}
+
+/* ==========================================================================
+   FOLHA A4 EDITORIAL (TELA)
+   ========================================================================== */
+.resume-paper {
+  background: #ffffff;
+  color: #0f172a;
+  width: 210mm;
+  max-width: 100%;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 13mm 15mm 11mm;
+  border-radius: 6px;
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.5);
+  font-family: var(--fonte-secundaria), 'Segoe UI', Arial, sans-serif;
+  line-height: 1.44;
+  display: flex;
+  flex-direction: column;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.resume-paper-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+/* Cabeçalho Editorial Alinhado à Esquerda + Contatos 3x2 */
+.resume-doc-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+
+.resume-doc-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.resume-doc-name {
+  font-family: var(--fonte-secundaria), 'Segoe UI', Arial, sans-serif;
+  font-size: 1.58rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.resume-doc-role {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #5b21b6;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.resume-doc-contacts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  justify-content: space-between;
+  gap: 0.28rem 1rem;
+  font-size: 0.73rem;
+  color: #334155;
+}
+
+.resume-doc-contacts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.resume-doc-contacts svg {
+  color: #6d28d9;
+  flex-shrink: 0;
+}
+
+.resume-doc-contacts a {
+  color: #334155;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.resume-doc-contacts a:hover {
+  color: #5b21b6;
+  text-decoration: underline;
+}
+
+/* Linha estrutural assinada */
+.resume-header-divider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #5b21b6 0%, #7c3aed 24%, #e2e8f0 24%, #e2e8f0 100%);
+  margin-bottom: 1rem;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+/* Seções editoriais */
+.resume-doc-section {
+  margin-bottom: 0.95rem;
+}
+
+.resume-doc-section:last-child {
+  margin-bottom: 0;
+}
+
+.resume-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--fonte-secundaria), 'Segoe UI', Arial, sans-serif;
+  font-size: 0.73rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #5b21b6;
+  margin: 0 0 0.5rem;
+}
+
+.resume-section-heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+/* Experiência & Formação */
+.resume-exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.resume-edu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.resume-entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.85rem;
+}
+
+.resume-entry-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.5rem;
+}
+
+.resume-entry h4 {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.resume-entry-company {
+  font-size: 0.79rem;
+  font-weight: 500;
+  color: #475569;
+}
+
+.resume-entry-company::before {
+  content: '—';
+  margin-right: 0.45rem;
+  color: #cbd5e1;
+}
+
+.resume-entry-date {
+  font-size: 0.74rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.resume-entry-date.is-current {
+  color: #5b21b6;
+}
+
+.resume-entry-org {
+  font-size: 0.77rem;
+  color: #475569;
+  margin: 0.1rem 0 0;
+}
+
+/* Bullets refinados */
+.resume-bullets {
+  margin: 0.28rem 0 0;
+  padding-left: 1.05rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.77rem;
+  color: #334155;
+  line-height: 1.46;
+}
+
+.resume-bullets li::marker {
+  color: #7c3aed;
+}
+
+.resume-bullets strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Competências Técnicas */
+.resume-skills-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.resume-skill-row {
+  display: grid;
+  grid-template-columns: 148px 1fr;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.26rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.resume-skill-row:first-child {
+  padding-top: 0;
+}
+
+.resume-skill-row:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.resume-skill-cat {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.resume-skill-values {
+  font-size: 0.77rem;
+  color: #334155;
+  line-height: 1.42;
+}
+
+/* Projetos em Destaque */
+.resume-projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.48rem;
+}
+
+.resume-projects-list.is-two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 0.45rem 1.35rem;
+}
+
+.resume-projects-list.is-two-col .resume-project-title-wrap {
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.resume-projects-list.is-two-col .resume-project-desc {
+  font-size: 0.72rem;
+  line-height: 1.36;
+}
+
+.resume-paper.is-dense .resume-doc-section {
+  margin-bottom: 0.75rem;
+}
+
+.resume-paper.is-dense .resume-exp-list {
+  gap: 0.58rem;
+}
+
+.resume-paper.is-dense .resume-edu-list {
+  gap: 0.38rem;
+}
+
+.resume-paper.is-dense .resume-header-divider {
+  margin-bottom: 0.8rem;
+}
+
+.resume-project-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.resume-project-title-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.55rem;
+}
+
+.resume-project-item h4 {
+  font-size: 0.81rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.resume-project-techs {
+  font-size: 0.71rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.resume-project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+  font-size: 0.71rem;
+  font-weight: 600;
+  color: #5b21b6;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.resume-project-link:hover {
+  text-decoration: underline;
+}
+
+.resume-project-desc {
+  font-size: 0.76rem;
+  color: #334155;
+  margin: 0.12rem 0 0;
+  line-height: 1.42;
+}
+
+/* Rodapé dividido em 2 colunas */
+.resume-bottom-columns {
+  display: grid;
+  grid-template-columns: 1fr 1.12fr;
+  gap: 1.5rem;
+  margin-top: 0.1rem;
+}
+
+.resume-bottom-columns .resume-doc-section {
+  margin-bottom: 0;
+}
+
+.resume-courses-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+}
+
+.resume-courses-list li {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.resume-courses-list strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.resume-courses-list span {
+  font-size: 0.69rem;
+  color: #64748b;
+  margin-top: 0.05rem;
+}
+
+.resume-additional-list {
+  margin-top: 0;
+  font-size: 0.75rem;
+  gap: 0.28rem;
+}
+
+/* Rodapé discreto na prévia de tela */
+.resume-paper-footer {
+  margin-top: 1rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.67rem;
+  color: #94a3b8;
+  letter-spacing: 0.02em;
+}
+
+/* Responsividade do modal na tela */
+@media (max-width: 860px) {
+  .resume-paper {
+    width: 100%;
+    min-height: auto;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .resume-doc-contacts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: start;
+    gap: 0.3rem 1rem;
+  }
+
+  .resume-projects-list.is-two-col,
+  .resume-bottom-columns {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .resume-modal-overlay {
+    padding: 0.5rem;
+  }
+
+  .resume-modal-body {
+    padding: 0.75rem;
+  }
+
+  .resume-doc-name {
+    font-size: 1.25rem;
+  }
+
+  .resume-doc-contacts {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-skill-row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}
+
+/* ==========================================================================
+   IMPRESSÃO / EXPORTAÇÃO PDF (@page NATIVO COM RODAPÉ + PÁGINAS EM TODA FOLHA)
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 14mm 16mm 14mm;
+
+    @top-left {
+      content: "";
+    }
+
+    @top-center {
+      content: "";
+    }
+
+    @top-right {
+      content: "";
+    }
+
+    @bottom-left {
+      content: "Saulo José da Silva Oliveira";
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      font-size: 7.5pt;
+      color: #94a3b8;
+      letter-spacing: 0.02em;
+      border-top: 0.75pt solid #e2e8f0;
+      padding-top: 2.5mm;
+      margin-top: 4mm;
+      margin-bottom: 5mm;
+      vertical-align: top;
+    }
+
+    @bottom-center {
+      content: "";
+      border-top: 0.75pt solid #e2e8f0;
+      padding-top: 2.5mm;
+      margin-top: 4mm;
+      margin-bottom: 5mm;
+      vertical-align: top;
+    }
+
+    @bottom-right {
+      content: "www.eusaulosilva.com.br";
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      font-size: 7.5pt;
+      color: #94a3b8;
+      letter-spacing: 0.02em;
+      border-top: 0.75pt solid #e2e8f0;
+      padding-top: 2.5mm;
+      margin-top: 4mm;
+      margin-bottom: 5mm;
+      vertical-align: top;
+    }
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .no-print,
+  .resume-modal-toolbar,
+  .resume-project-picker,
+  .resume-paper-footer {
+    display: none !important;
+  }
+
+  .resume-modal-overlay {
+    position: static !important;
+    inset: auto !important;
+    display: block !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    animation: none !important;
+  }
+
+  .resume-modal-shell {
+    max-width: none !important;
+    max-height: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+
+  .resume-modal-body {
+    padding: 0 !important;
+    overflow: visible !important;
+    background: transparent !important;
+  }
+
+  .resume-paper {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .resume-paper-content {
+    display: block !important;
+  }
+
+  .resume-doc-contacts {
+    grid-template-columns: repeat(3, max-content) !important;
+    justify-content: space-between !important;
+  }
+
+  .resume-projects-list.is-two-col {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .resume-skill-row {
+    grid-template-columns: 145px 1fr !important;
+  }
+
+  .resume-bottom-columns {
+    grid-template-columns: 1fr 1.12fr !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Proteção contra corte de blocos e títulos órfãos entre páginas */
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .resume-section-heading {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .resume-doc-header,
+  .resume-entry,
+  .resume-project-item,
+  .resume-skill-row,
+  .resume-courses-list li,
+  .resume-additional-list li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

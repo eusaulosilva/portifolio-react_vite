@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="Preview conceitual do projeto Pobreokê">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#140d21" />
+      <stop offset="55%" stop-color="#1d1133" />
+      <stop offset="100%" stop-color="#121216" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="48%">
+      <stop offset="0%" stop-color="#9322fd" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#9322fd" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9322fd" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="540" fill="url(#bg)" />
+  <rect width="960" height="540" fill="url(#glow)" />
+
+  <!-- Subtle equalizer bars -->
+  <g fill="#c084fc" opacity="0.22">
+    <rect x="90" y="340" width="16" height="110" rx="8" />
+    <rect x="122" y="290" width="16" height="160" rx="8" />
+    <rect x="154" y="320" width="16" height="130" rx="8" />
+    <rect x="186" y="260" width="16" height="190" rx="8" />
+    <rect x="758" y="275" width="16" height="175" rx="8" />
+    <rect x="790" y="315" width="16" height="135" rx="8" />
+    <rect x="822" y="285" width="16" height="165" rx="8" />
+    <rect x="854" y="345" width="16" height="105" rx="8" />
+  </g>
+
+  <!-- Central glass card -->
+  <rect x="240" y="100" width="480" height="340" rx="28" fill="#ffffff" fill-opacity="0.045" stroke="#c084fc" stroke-opacity="0.35" stroke-width="2" />
+
+  <!-- Microphone icon -->
+  <g transform="translate(480 205)" fill="none" stroke="url(#accent)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="-18" y="-48" width="36" height="60" rx="18" fill="#9322fd" fill-opacity="0.22" />
+    <path d="M-34 -12 a34 34 0 0 0 68 0" />
+    <line x1="0" y1="22" x2="0" y2="42" />
+    <line x1="-18" y1="42" x2="18" y2="42" />
+  </g>
+
+  <!-- Title & Subtitle -->
+  <text x="480" y="302" text-anchor="middle" fill="#f5f5f5" font-family="Montserrat, Arial, sans-serif" font-size="44" font-weight="700" letter-spacing="1.5">
+    Pobreokê
+  </text>
+  <text x="480" y="340" text-anchor="middle" fill="#c084fc" font-family="Montserrat, Arial, sans-serif" font-size="18" font-weight="600" letter-spacing="1">
+    KARAOKÊ WEB • FILAS EM TEMPO REAL
+  </text>
+
+  <!-- Tech pills -->
+  <g font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="600" fill="#e5e7eb">
+    <rect x="355" y="368" width="112" height="34" rx="17" fill="#9322fd" fill-opacity="0.22" stroke="#c084fc" stroke-opacity="0.45" />
+    <text x="411" y="390" text-anchor="middle">React</text>
+    <rect x="483" y="368" width="122" height="34" rx="17" fill="#9322fd" fill-opacity="0.22" stroke="#c084fc" stroke-opacity="0.45" />
+    <text x="544" y="390" text-anchor="middle">Firebase</text>
+  </g>
+</svg>

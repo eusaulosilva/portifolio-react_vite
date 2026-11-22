@@ -3,18 +3,25 @@ name: Deploy via FTP
 on:
   push:
     branches:
-      - main # ou a sua branch principal
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Instalar dependências e Build
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências, validar lint e gerar build
         run: |
-          npm install
+          npm ci
+          npm run lint
           npm run build
 
       - name: Deploy via FTP
@@ -27,6 +34,5 @@ jobs:
           server-dir: ./
           protocol: ftp
           port: 21
-          # Configurações para evitar Timeout e pastas duplicadas:
           log-level: verbose
-          state-name: .ftp-deploy-sync-state.json # Ajuda na sincronização
+          state-name: .ftp-deploy-sync-state.json

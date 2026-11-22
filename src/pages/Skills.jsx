@@ -1,33 +1,42 @@
+import Reveal from '../components/Reveal';
 import SkillItem from '../components/SkillItem';
-import { skillsData } from '../data/content';
+import { skillCategories, skillsData } from '../data/content';
 
 export default function Skills() {
-    // Agrupa as skills por categoria para manter a estrutura do seu HTML original
-    const categories = ["Desenvolvimento", "Backend & Outras", "Dados & Ferramentas"];
-
     return (
-        <section id="skill" className="container-fluid">
+        <section id="skills" className="container-fluid">
             <div className="skills-section">
-                <div className="header">
-                    <h2>Tecnologias</h2>
-                </div>
-                
-                {/* Mantendo a classe original que organiza o layout em colunas */}
+                <Reveal>
+                    <div className="header">
+                        <span className="section-kicker">02 / Stack Técnica</span>
+                        <h2>Tecnologias</h2>
+                    </div>
+                </Reveal>
+
                 <div className="skills-grid">
-                    {categories.map((cat) => (
-                        <div key={cat} className="category">
-                            <h3>{cat}</h3>
-                            {skillsData
-                                .filter(skill => skill.category === cat)
-                                .map((skill, index) => (
-                                    <SkillItem 
-                                        key={index} 
-                                        name={skill.name} 
-                                        icon={skill.icon} 
-                                    />
-                                ))
-                            }
-                        </div>
+                    {skillCategories.map((category, index) => (
+                        <Reveal key={category} delay={index * 100} className="skill-category-reveal">
+                            <div className="category">
+                                <div className="category-header">
+                                    <h3>{category}</h3>
+                                    <span className="category-count">
+                                        {skillsData.filter((s) => s.category === category).length}
+                                    </span>
+                                </div>
+                                <div className="category-items">
+                                    {skillsData
+                                        .filter((skill) => skill.category === category)
+                                        .map((skill) => (
+                                            <SkillItem
+                                                key={skill.name}
+                                                name={skill.name}
+                                                icon={skill.icon}
+                                                customIcon={skill.customIcon}
+                                            />
+                                        ))}
+                                </div>
+                            </div>
+                        </Reveal>
                     ))}
                 </div>
             </div>

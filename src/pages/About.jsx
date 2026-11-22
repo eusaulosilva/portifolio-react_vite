@@ -1,39 +1,88 @@
+import Reveal from '../components/Reveal';
+import { CodeIcon, DatabaseIcon, GraduationCapIcon } from '../components/Icons';
+import { aboutHighlights } from '../data/content';
+
+function HighlightIcon({ icon }) {
+    switch (icon) {
+        case 'graduation':
+            return <GraduationCapIcon size={20} />;
+        case 'database':
+            return <DatabaseIcon size={20} />;
+        case 'code':
+            return <CodeIcon size={20} />;
+        default:
+            return null;
+    }
+}
 
 const About = () => {
     return (
-        <div id="sobre" className="container-fluid">
-            <section className="sobre-section">
-                <div className="header">
-                    <h2>Sobre mim</h2>
+        <section id="sobre" className="container-fluid">
+            <div className="sobre-section">
+                <Reveal>
+                    <div className="header">
+                        <span className="section-kicker">01 / Perfil</span>
+                        <h2>Sobre mim</h2>
+                    </div>
+                </Reveal>
+
+                <div className="about-layout">
+                    <Reveal delay={80}>
+                        <div className="sobre-conteudo">
+                            <p className="container-conteudo-texto container-conteudo-lead">
+                                Sou bacharel em Ciência da Computação pelo UDF, pós-graduando em{' '}
+                                <strong>Ciência de Dados e Big Data Analytics</strong> pela Cruzeiro do
+                                Sul Virtual e possuo um perfil híbrido que une o{' '}
+                                <strong>Desenvolvimento Full Stack</strong> à{' '}
+                                <strong>Análise de Dados</strong>.
+                            </p>
+                            <p className="container-conteudo-texto">
+                                Com experiência prática como Analista de Dados na{' '}
+                                <strong>BB Administradora de Consórcios S.A.</strong> e atuação em
+                                gestão e automação de processos no UDF, trabalho com indicadores
+                                financeiros e operacionais usando SQL, Python, Power BI, Streamlit e
+                                Excel/VBA.
+                            </p>
+                            <p className="container-conteudo-texto">
+                                No desenvolvimento de software, construo aplicações modernas e
+                                escaláveis com <strong>React, Vite e Node.js</strong>, bancos de dados{' '}
+                                <strong>PostgreSQL, SQLite e Firebase</strong> e apps mobile em{' '}
+                                <strong>Flutter</strong> — aplicados em projetos como o Job Finder, o
+                                Pobreokê e o ManScan.
+                            </p>
+                            <p className="container-conteudo-texto">
+                                Também valorizo comunidade e liderança técnica, tendo atuado como{' '}
+                                <strong>Líder de Comunidade e Caravana na Campus Party (2023–2025)</strong>,
+                                monitor acadêmico e representante de turma na UDF. Meu foco é entregar
+                                produtos que unam alta performance, design intuitivo e inteligência de
+                                dados.
+                            </p>
+                        </div>
+                    </Reveal>
+
+                    <div className="about-highlights">
+                        {aboutHighlights.map((item, index) => (
+                            <Reveal
+                                key={item.id}
+                                delay={120 + index * 90}
+                                className="about-highlight-reveal"
+                            >
+                                <article className="about-highlight-card">
+                                    <div className="about-highlight-icon">
+                                        <HighlightIcon icon={item.icon} />
+                                    </div>
+                                    <div className="about-highlight-body">
+                                        <h3>{item.title}</h3>
+                                        <p>{item.subtitle}</p>
+                                    </div>
+                                </article>
+                            </Reveal>
+                        ))}
+                    </div>
                 </div>
-
-                <div className="sobre-conteudo">
-                    <p className="container-conteudo-texto">
-                        Sou graduado em Ciência da Computação pelo UDF e possuo um perfil híbrido que une o
-                        <strong> Desenvolvimento Full Stack</strong> à <strong>Análise de Dados</strong>. Com
-                        experiência prática como Analista de Dados no Banco do Brasil, desenvolvi um olhar crítico
-                        para a manipulação de grandes volumes de informações e a criação de dashboards estratégicos
-                        utilizando Python e Power BI.
-                    </p>
-                    <p className="container-conteudo-texto">
-                        No desenvolvimento de software, foco na construção de aplicações modernas e escaláveis.
-                        Utilizo o ecossistema <strong>JavaScript (React e Node.js)</strong> para entregar
-                        soluções completas, além de dominar tecnologias mobile como <strong>Flutter
-                        </strong>. Um exemplo desse trabalho é o ManScan, um projeto autoral voltado
-                        para a saúde masculina que integra tecnologia e impacto social.
-                    </p>
-                    <p className="container-conteudo-texto">
-                        Acredito que o futuro do desenvolvimento está na capacidade de criar sistemas que não apenas
-                        funcionam perfeitamente, mas que também geram insights valiosos através dos dados que processam.
-                        Estou em constante evolução, sempre buscando como objetivo entregar produtos que unam alta performance,
-                        design intuitivo e inteligência de dados.
-                    </p>
-                </div>
-
-            </section>
-
-        </div>
+            </div>
+        </section>
     );
-}
+};
 
 export default About;

@@ -1,20 +1,22 @@
-export default function TimelineItem({ date, title, institution, description }) {
+export default function TimelineItem({ date, current, title, institution, description, highlights }) {
     return (
-        <div className="timeline-item">
-            {/* Mantendo a classe original para a data (Ex: Dez/2025) */}
-            <p className="timeline-date">{date}</p>
-
-            {/* Título do cargo ou curso */}
+        <article className={`timeline-item ${current ? 'timeline-item-current' : ''}`}>
+            <div className="timeline-meta">
+                <p className="timeline-date">{date}</p>
+                {current && <span className="timeline-badge">Atual</span>}
+            </div>
             <h4>{title}</h4>
-
-            {/* Nome da instituição (Ex: UDF ou Banco do Brasil) */}
             <p className="timeline-institution">{institution}</p>
 
-            {/* Descrição das atividades ou do curso */}
-            <p className="timeline-description">
-                {description}
-            </p>
-        </div>
+            {highlights && highlights.length > 0 ? (
+                <ul className="timeline-highlights">
+                    {highlights.map((item) => (
+                        <li key={item}>{item}</li>
+                    ))}
+                </ul>
+            ) : (
+                description && <p className="timeline-description">{description}</p>
+            )}
+        </article>
     );
 }
-
