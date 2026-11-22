@@ -1,479 +1,8 @@
-﻿/* ==========================================================================
-   1. DESIGN SYSTEM, VARIÃVEIS E RESET
-   ========================================================================== */
-:root {
-  --cor-primaria: #0e0e12;
-  --cor-superficie: #14141a;
-  --cor-secundaria: #f5f5f7;
-  --cor-terciaria: #9322fd;
-  --cor-terciaria-clara: #c084fc;
-  --cor-quartenaria: #6e01b8;
-  --cor-hover: rgba(147, 34, 253, 0.16);
-  --cor-texto-corpo: #a6a6b3;
-  --cor-borda-vidro: rgba(255, 255, 255, 0.085);
-  --cor-borda-hover: rgba(192, 132, 252, 0.42);
-  --cor-bg-vidro: rgba(255, 255, 255, 0.03);
-  --cor-bg-vidro-elevado: rgba(255, 255, 255, 0.05);
-  --sombra-card: 0 12px 32px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  --sombra-glow: 0 10px 30px rgba(147, 34, 253, 0.28);
-  --fonte-primaria: 'Krona One', sans-serif;
-  --fonte-secundaria: 'Montserrat', sans-serif;
-  --navbar-height: 72px;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  max-width: 100%;
-  overflow-x: clip;
-  scrollbar-color: rgba(147, 34, 253, 0.45) var(--cor-primaria);
-  scrollbar-width: thin;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--cor-primaria);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(147, 34, 253, 0.4);
-  border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--cor-terciaria);
-}
-
-::selection {
-  background: rgba(147, 34, 253, 0.35);
-  color: #ffffff;
-}
-
-body {
-  max-width: 100%;
-  overflow-x: clip;
-  margin: 0;
-  padding: 0;
-  background-color: var(--cor-primaria);
-  color: var(--cor-secundaria);
-  font-family: var(--fonte-secundaria);
-  padding-top: var(--navbar-height);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-section[id] {
-  scroll-margin-top: var(--navbar-height);
-  position: relative;
-}
-
-.container-fluid {
-  width: 100%;
-  margin: 0 auto;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-button,
-input,
-textarea {
-  font-family: inherit;
-}
-
-h1,
-h2 {
-  font-family: var(--fonte-primaria);
-}
-
-/* Acessibilidade: foco visÃ­vel consistente */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--cor-terciaria-clara);
-  outline-offset: 3px;
-}
-
-/* Link "Pular para o conteÃºdo" */
-.skip-link {
-  position: fixed;
-  top: -100px;
-  left: 1rem;
-  z-index: 2000;
-  background: var(--cor-terciaria);
-  color: var(--cor-secundaria);
-  padding: 0.75rem 1.25rem;
-  border-radius: 10px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: top 0.2s ease;
-}
-
-.skip-link:focus {
-  top: 1rem;
-}
-
 /* ==========================================================================
-   2. COMPONENTES REUTILIZÃVEIS (REVEAL, HEADERS, CARDS E BOTÃ•ES)
+   SEÇÕES DA PÁGINA: HERO, SOBRE, SKILLS, PROJETOS, CURRÍCULO E CONTATO
    ========================================================================== */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
 
-.reveal.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* CabeÃ§alho Editorial de SeÃ§Ã£o */
-.header {
-  text-align: center;
-  margin-bottom: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.section-kicker {
-  display: inline-block;
-  font-family: var(--fonte-secundaria);
-  font-size: 0.74rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--cor-terciaria-clara);
-  margin-bottom: 0.65rem;
-  opacity: 0.9;
-}
-
-.header h2 {
-  font-family: var(--fonte-primaria);
-  font-size: clamp(1.75rem, 3.4vw, 2.55rem);
-  letter-spacing: -0.02em;
-  color: var(--cor-secundaria);
-  margin: 0;
-  position: relative;
-  display: inline-block;
-  padding-bottom: 0.85rem;
-}
-
-.header h2::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 56px;
-  height: 3px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--cor-terciaria), var(--cor-terciaria-clara));
-  box-shadow: 0 0 14px rgba(147, 34, 253, 0.55);
-}
-
-/* BotÃµes Sociais (Vidro refinado com glow roxo no hover) */
-.container-conteudo-botao {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2.25rem;
-  gap: 0.9rem;
-}
-
-.container-conteudo-botao-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 50%;
-  width: 3.2rem;
-  height: 3.2rem;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  color: var(--cor-secundaria);
-  text-decoration: none;
-  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
-}
-
-.container-conteudo-botao-link svg {
-  width: 1.2rem;
-  height: 1.2rem;
-  color: currentColor;
-}
-
-.container-conteudo-botao-link:hover {
-  background: linear-gradient(135deg, var(--cor-terciaria), var(--cor-quartenaria));
-  border-color: var(--cor-terciaria-clara);
-  color: #ffffff;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(147, 34, 253, 0.42);
-}
-
-/* BotÃµes de Cards */
-.btn-card {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  background: linear-gradient(135deg, var(--cor-terciaria), var(--cor-quartenaria));
-  border: 1px solid rgba(192, 132, 252, 0.35);
-  color: var(--cor-secundaria);
-  font-family: var(--fonte-secundaria);
-  font-weight: 600;
-  font-size: 0.86rem;
-  padding: 0.62rem 1rem;
-  border-radius: 10px;
-  text-decoration: none;
-  cursor: pointer;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
-  flex: 1;
-}
-
-.btn-card:hover,
-.btn-card:active {
-  border-color: var(--cor-terciaria-clara);
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(147, 34, 253, 0.35);
-}
-
-.btn-card-outline {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--cor-borda-vidro);
-  color: var(--cor-secundaria);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.btn-card-outline:hover,
-.btn-card-outline:active {
-  background: rgba(147, 34, 253, 0.18);
-  border-color: var(--cor-terciaria-clara);
-}
-
-.btn-card-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.65rem;
-  margin-top: auto;
-  padding-top: 1.1rem;
-  width: 100%;
-}
-
-/* Cards Base */
-.card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.018) 100%);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--cor-borda-vidro);
-  border-radius: 18px;
-  color: var(--cor-secundaria);
-  box-shadow: var(--sombra-card);
-  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  border-color: var(--cor-borda-hover);
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.45), 0 0 28px rgba(147, 34, 253, 0.14);
-}
-
-/* Tech Badges */
-.tech-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 0.65rem;
-}
-
-.btn-skill {
-  background-color: rgba(147, 34, 253, 0.08);
-  color: #d4d4df;
-  border: 1px solid rgba(192, 132, 252, 0.18);
-  font-family: var(--fonte-secundaria);
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 0.28rem 0.7rem;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-
-.btn-skill:hover {
-  background-color: rgba(147, 34, 253, 0.22);
-  color: #ffffff;
-  border-color: var(--cor-terciaria-clara);
-}
-
-/* ==========================================================================
-   3. NAVEGAÃ‡ÃƒO (NAVBAR)
-   ========================================================================== */
-.navbar {
-  padding: 0.65rem 1.5rem;
-  background: rgba(14, 14, 18, 0.68);
-  backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: var(--navbar-height);
-  display: flex;
-  align-items: center;
-  z-index: 1060;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.navbar-scrolled {
-  background: rgba(14, 14, 18, 0.9);
-  border-bottom-color: rgba(192, 132, 252, 0.14);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-}
-
-.navbar-inner {
-  width: 100%;
-  max-width: 1240px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.navbar-brand-custom {
-  font-family: var(--fonte-primaria);
-  font-size: 1.1rem;
-  color: var(--cor-secundaria);
-  text-decoration: none;
-  letter-spacing: 0.01em;
-  transition: opacity 0.2s ease;
-}
-
-.navbar-brand-custom span {
-  color: var(--cor-terciaria-clara);
-}
-
-.navbar-brand-custom:hover {
-  color: #ffffff;
-  opacity: 0.92;
-}
-
-.navbar-toggler {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(192, 132, 252, 0.3);
-  border-radius: 10px;
-  padding: 0.45rem 0.6rem;
-  cursor: pointer;
-  transition: box-shadow 0.25s ease, border-color 0.25s ease;
-}
-
-.navbar-toggler-icon {
-  display: inline-block;
-  width: 1.45rem;
-  height: 1.45rem;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100%;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(192, 132, 252, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-}
-
-.navbar-toggler[aria-expanded="true"] {
-  border-color: var(--cor-terciaria);
-  box-shadow: 0 0 16px rgba(147, 34, 253, 0.35);
-}
-
-.navbar-collapse {
-  display: flex;
-  align-items: center;
-}
-
-.navbar-nav {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.navbar .nav-link {
-  display: inline-block;
-  color: var(--cor-texto-corpo);
-  transition: color 0.22s ease, background-color 0.22s ease;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  position: relative;
-  padding: 0.45rem 0.85rem;
-  border-radius: 999px;
-}
-
-.navbar .nav-link:hover {
-  color: var(--cor-secundaria);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.navbar .nav-link.active {
-  color: #ffffff;
-  background: rgba(147, 34, 253, 0.16);
-}
-
-.nav-item {
-  margin: 0;
-}
-
-.scroll-progress-bar {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--cor-quartenaria), var(--cor-terciaria), var(--cor-terciaria-clara));
-  box-shadow: 0 0 10px rgba(147, 34, 253, 0.6);
-  transition: width 0.1s linear;
-  pointer-events: none;
-}
-
-.navbar-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 1040;
-  background: rgba(0, 0, 0, 0.52);
-  backdrop-filter: blur(2px);
-}
-
-/* ==========================================================================
-   4. SEÃ‡ÃƒO HERO (INÃCIO)
-   ========================================================================== */
+/* --- 1. Hero (Início) --- */
 .hero-section {
   position: relative;
   width: 100%;
@@ -492,7 +21,7 @@ textarea:focus-visible {
   inset: 0;
   background-image:
     radial-gradient(ellipse at 50% 42%, rgba(14, 14, 18, 0.78) 10%, rgba(14, 14, 18, 0.97) 85%),
-    url('./assets/hero-bg.webp');
+    url('../assets/hero-bg.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -507,14 +36,17 @@ textarea:focus-visible {
   width: min(760px, 95vw);
   height: min(560px, 80vw);
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 42% 45%, rgba(147, 34, 253, 0.22) 0%, rgba(110, 1, 184, 0.08) 42%, transparent 72%);
+  background: radial-gradient(
+    circle at 42% 45%,
+    rgba(147, 34, 253, 0.22) 0%,
+    rgba(110, 1, 184, 0.08) 42%,
+    transparent 72%
+  );
   filter: blur(16px);
   pointer-events: none;
   z-index: -2;
 }
 
-/* Grade arquitetÃ´nica sutil no Hero */
 .hero-grid-pattern {
   position: absolute;
   inset: 0;
@@ -540,44 +72,6 @@ textarea:focus-visible {
   justify-content: center;
   text-align: center;
   max-width: 880px;
-}
-
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.45rem 1.15rem;
-  border-radius: 999px;
-  border: 1px solid rgba(192, 132, 252, 0.28);
-  background: rgba(147, 34, 253, 0.1);
-  backdrop-filter: blur(10px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  color: var(--cor-terciaria-clara);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  margin-bottom: 1.5rem;
-}
-
-.hero-eyebrow-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--cor-terciaria-clara);
-  box-shadow: 0 0 10px var(--cor-terciaria);
-  animation: pulseDot 2.2s ease-in-out infinite;
-}
-
-@keyframes pulseDot {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.55;
-    transform: scale(0.85);
-  }
 }
 
 .container-conteudo-titulo {
@@ -621,7 +115,11 @@ textarea:focus-visible {
   font-size: 0.92rem;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .hero-btn-primary {
@@ -684,9 +182,7 @@ textarea:focus-visible {
   }
 }
 
-/* ==========================================================================
-   5. DIVISORES DE SEÃ‡ÃƒO & SEÃ‡ÃƒO SOBRE (LAYOUT EDITORIAL 2 COLUNAS)
-   ========================================================================== */
+/* --- Estrutura Base das Seções --- */
 #sobre,
 #skills,
 #projetos,
@@ -710,6 +206,7 @@ textarea:focus-visible {
   margin: 0 auto;
 }
 
+/* --- 2. Sobre Mim --- */
 .about-layout {
   display: grid;
   grid-template-columns: 1.25fr 0.95fr;
@@ -762,7 +259,11 @@ textarea:focus-visible {
   border-radius: 16px;
   padding: 1.35rem 1.4rem;
   box-shadow: var(--sombra-card);
-  transition: transform 0.28s ease, border-color 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    background-color 0.28s ease,
+    box-shadow 0.28s ease;
 }
 
 .about-highlight-card:hover {
@@ -800,9 +301,7 @@ textarea:focus-visible {
   margin: 0;
 }
 
-/* ==========================================================================
-   6. SEÃ‡ÃƒO SKILLS (BENTO COMPACTO E ESCANEÃVEL)
-   ========================================================================== */
+/* --- 3. Skills --- */
 #skills {
   background:
     radial-gradient(ellipse at 50% 0%, rgba(147, 34, 253, 0.08) 0%, transparent 55%),
@@ -877,7 +376,11 @@ textarea:focus-visible {
   font-size: 0.86rem;
   font-weight: 500;
   color: #c8c8d4;
-  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
 .skill-item span {
@@ -923,9 +426,7 @@ textarea:focus-visible {
   transform: scale(1.08);
 }
 
-/* ==========================================================================
-   7. SEÃ‡ÃƒO PROJETOS
-   ========================================================================== */
+/* --- 4. Projetos --- */
 .project-filters {
   display: inline-flex;
   flex-wrap: wrap;
@@ -951,7 +452,11 @@ textarea:focus-visible {
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
+  transition:
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
 .filter-pill:hover {
@@ -1061,9 +566,52 @@ textarea:focus-visible {
   margin: 0 0 1.15rem;
 }
 
-/* ==========================================================================
-   8. SEÃ‡ÃƒO CURRÃCULO E TIMELINE (LAYOUT ABERTO E LIMPO SEM PAINÃ‰IS)
-   ========================================================================== */
+.projects-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.25rem;
+}
+
+.btn-projects-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.82rem 1.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  color: var(--cor-secundaria);
+  font-family: var(--fonte-secundaria);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.btn-projects-toggle:hover {
+  background: linear-gradient(135deg, var(--cor-terciaria), var(--cor-quartenaria));
+  border-color: var(--cor-terciaria-clara);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-glow);
+}
+
+.projects-toggle-icon {
+  transition: transform 0.28s ease;
+}
+
+.btn-projects-toggle.is-expanded .projects-toggle-icon {
+  transform: rotate(180deg);
+}
+
+/* --- 5. Currículo e Timeline (Layout Aberto sem Painéis) --- */
 #curriculo {
   background:
     radial-gradient(ellipse at 50% 100%, rgba(147, 34, 253, 0.07) 0%, transparent 55%),
@@ -1213,53 +761,20 @@ textarea:focus-visible {
   color: var(--cor-terciaria-clara);
 }
 
-.complementary-courses {
+.complementary-courses,
+.additional-info-block,
+.resume-download-wrap {
   margin-top: 2.25rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--cor-borda-vidro);
 }
 
-.complementary-courses h4 {
+.complementary-courses h4,
+.column-title-sm h4 {
   font-family: var(--fonte-primaria);
   font-size: 0.94rem;
   color: var(--cor-secundaria);
   margin: 0 0 1rem;
-}
-
-.course-list {
-  margin: 0;
-  padding-left: 1.15rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-}
-
-.course-list li {
-  color: var(--cor-texto-corpo);
-  font-size: 0.88rem;
-  line-height: 1.5;
-}
-
-.course-list li::marker {
-  color: var(--cor-terciaria-clara);
-}
-
-.course-list li strong {
-  display: block;
-  color: var(--cor-secundaria);
-  font-weight: 600;
-}
-
-.course-list-meta {
-  display: block;
-  color: var(--cor-texto-corpo);
-  font-size: 0.8rem;
-}
-
-.additional-info-block {
-  margin-top: 2.25rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--cor-borda-vidro);
 }
 
 .column-title-sm {
@@ -1267,10 +782,7 @@ textarea:focus-visible {
 }
 
 .column-title-sm h4 {
-  font-family: var(--fonte-primaria);
-  font-size: 0.94rem;
   margin: 0;
-  color: var(--cor-secundaria);
 }
 
 .additional-info-list {
@@ -1293,12 +805,6 @@ textarea:focus-visible {
   font-weight: 600;
 }
 
-.resume-download-wrap {
-  margin-top: 2.25rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--cor-borda-vidro);
-}
-
 .btn-resume-download {
   display: inline-flex;
   align-items: center;
@@ -1313,7 +819,11 @@ textarea:focus-visible {
   text-decoration: none;
   cursor: pointer;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .btn-resume-download:hover {
@@ -1324,9 +834,7 @@ textarea:focus-visible {
   box-shadow: var(--sombra-glow);
 }
 
-/* ==========================================================================
-   9. CONTATO (LAYOUT 2 COLUNAS) E RODAPÃ‰
-   ========================================================================== */
+/* --- 6. Contato --- */
 .contact-layout {
   display: grid;
   grid-template-columns: 0.92fr 1.18fr;
@@ -1628,156 +1136,7 @@ textarea:focus-visible {
   }
 }
 
-/* RodapÃ© */
-.footer-wrapper {
-  position: relative;
-  background-color: var(--cor-primaria);
-  padding: 3rem 2rem 2rem;
-  font-family: var(--fonte-secundaria);
-}
-
-.footer-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(192, 132, 252, 0.35) 50%, transparent 100%);
-}
-
-.footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.footer-brand {
-  text-align: left;
-  max-width: 360px;
-}
-
-.footer-brand-logo {
-  font-family: var(--fonte-primaria);
-  font-size: 1.15rem;
-  text-decoration: none;
-  color: var(--cor-secundaria);
-}
-
-.footer-brand-logo span {
-  color: var(--cor-terciaria-clara);
-}
-
-.footer-brand p {
-  font-size: 0.84rem;
-  color: var(--cor-texto-corpo);
-  margin: 0.4rem 0 0;
-}
-
-.footer-nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-}
-
-.footer-nav-links a {
-  color: var(--cor-texto-corpo);
-  text-decoration: none;
-  font-size: 0.88rem;
-  font-weight: 500;
-  transition: color 0.22s ease;
-}
-
-.footer-nav-links a:hover {
-  color: var(--cor-terciaria-clara);
-}
-
-.footer-social-group {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.footer-social-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--cor-borda-vidro);
-  color: var(--cor-secundaria);
-  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-  text-decoration: none;
-}
-
-.footer-social-icon:hover {
-  background: linear-gradient(135deg, var(--cor-terciaria), var(--cor-quartenaria));
-  border-color: var(--cor-terciaria-clara);
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(147, 34, 253, 0.35);
-}
-
-.footer-bottom {
-  max-width: 1200px;
-  margin: 2rem auto 0;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  text-align: center;
-  font-size: 0.8rem;
-  color: var(--cor-texto-corpo);
-}
-
-.footer-bottom p {
-  margin: 0;
-}
-
-/* BotÃ£o Voltar ao Topo */
-.back-to-top {
-  position: fixed;
-  right: 1.5rem;
-  bottom: 1.5rem;
-  z-index: 1050;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid rgba(192, 132, 252, 0.4);
-  background: rgba(14, 14, 18, 0.85);
-  backdrop-filter: blur(12px);
-  color: var(--cor-secundaria);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(14px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  transition: opacity 0.28s ease, transform 0.28s ease, visibility 0.28s ease, background-color 0.25s ease, border-color 0.25s ease;
-}
-
-.back-to-top.visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.back-to-top:hover {
-  background: linear-gradient(135deg, var(--cor-terciaria), var(--cor-quartenaria));
-  border-color: var(--cor-terciaria-clara);
-  color: #ffffff;
-  transform: translateY(-3px);
-}
-
-/* ==========================================================================
-   10. RESPONSIVIDADE E PREFERÃŠNCIAS DE MOVIMENTO
-   ========================================================================== */
+/* --- Responsividade das Seções --- */
 @media (max-width: 1100px) {
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1799,31 +1158,6 @@ textarea:focus-visible {
     padding: 4rem 1.25rem;
   }
 
-  .navbar {
-    padding: 0.55rem 1.15rem;
-  }
-
-  .navbar-toggler {
-    display: inline-flex;
-  }
-
-  .navbar-collapse {
-    display: none;
-    flex-basis: 100%;
-    padding-top: 0.75rem;
-  }
-
-  .navbar-collapse.show {
-    display: block;
-  }
-
-  .navbar-nav {
-    flex-direction: column;
-    padding: 0.5rem 0;
-    gap: 0.35rem;
-    text-align: center;
-  }
-
   .resume-grid,
   .skills-grid {
     grid-template-columns: 1fr;
@@ -1840,16 +1174,6 @@ textarea:focus-visible {
 
   .container-contato {
     padding: 1.5rem 1.25rem;
-  }
-
-  .footer-container {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .footer-brand {
-    text-align: center;
   }
 }
 
@@ -1878,31 +1202,5 @@ textarea:focus-visible {
 
   .container-conteudo-botao {
     gap: 0.75rem;
-  }
-
-  .back-to-top {
-    right: 1rem;
-    bottom: 1rem;
-    width: 40px;
-    height: 40px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
   }
 }

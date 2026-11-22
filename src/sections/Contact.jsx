@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import Reveal from '../components/Reveal';
+import { Reveal } from '../components/ui';
 import {
     CheckIcon,
     CopyIcon,
@@ -7,8 +7,8 @@ import {
     MapPinIcon,
     SendIcon,
     SocialIcon,
-} from '../components/Icons';
-import { profileData, socialLinks } from '../data/content';
+} from '../components/ui/Icons';
+import { profileData, socialLinks } from '../data';
 
 const INITIAL_FORM = {
     nome: '',
@@ -117,13 +117,16 @@ export default function Contact() {
 
             if (response.ok) {
                 setStatus({
-                    message: result.message || 'Mensagem enviada com sucesso! Retornarei em breve.',
+                    message:
+                        result.message || 'Mensagem enviada com sucesso! Retornarei em breve.',
                     type: 'success',
                 });
                 setFormData(INITIAL_FORM);
             } else {
                 setStatus({
-                    message: result.message || 'Ops! Não foi possível enviar sua mensagem. Tente novamente.',
+                    message:
+                        result.message ||
+                        'Ops! Não foi possível enviar sua mensagem. Tente novamente.',
                     type: 'error',
                 });
             }
@@ -289,11 +292,7 @@ export default function Contact() {
                                     />
                                 </div>
 
-                                <button
-                                    type="submit"
-                                    className="btn-enviar"
-                                    disabled={loading}
-                                >
+                                <button type="submit" className="btn-enviar" disabled={loading}>
                                     <SendIcon size={16} className="btn-enviar-icone" />
                                     <span>{loading ? 'Enviando...' : 'Enviar Mensagem'}</span>
                                 </button>

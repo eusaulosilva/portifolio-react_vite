@@ -1,16 +1,11 @@
-import { useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import BackToTop from './components/BackToTop';
-import ResumeModal from './components/ResumeModal';
-import Home from './pages/Home';
-import About from './pages/About';
-import Skills from './pages/Skills';
-import Projects from './pages/Projects';
-import Resume from './pages/Resume';
-import Contact from './pages/Contact';
-import { profileData, socialLinks } from './data/content';
+import { BackToTop, Footer, Navbar } from './components/layout';
+import { About, Contact, Home, Projects, Resume, Skills } from './sections';
+import { profileData, socialLinks } from './data';
+import { getSectionFromPath, isCvPath, scrollToSection } from './utils/scroll';
+
+const ResumeModal = lazy(() => import('./components/resume/ResumeModal'));
 
 const personStructuredData = {
     '@context': 'https://schema.org',
@@ -48,10 +43,68 @@ const personStructuredData = {
 };
 
 function App() {
-    const [isResumeOpen, setIsResumeOpen] = useState(false);
+    const [isResumeOpen, setIsResumeOpen] = useState(
+        () => typeof window !== 'undefined' && isCvPath(window.location.pathname)
+    );
+    const previousPathRef = useRef('/');
 
-    const openResume = () => setIsResumeOpen(true);
-    const closeResume = () => setIsResumeOpen(false);
+    useEffect(() => {
+        const syncFromLocation = (fromPopState = false) => {
+            if (isCvPath(window.location.pathname)) {
+                setIsResumeOpen(true);
+                return;
+            }
+
+            if (fromPopState) {
+                setIsResumeOpen(false);
+            }
+
+            if (window.location.hash) {
+                const hashSection = window.location.hash.slice(1);
+                scrollToSection(hashSection, null, {
+                    updateHistory: true,
+                    replace: true,
+                });
+                return;
+            }
+
+            const sectionId = getSectionFromPath(window.location.pathname);
+            if (sectionId && (sectionId !== 'inicio' || fromPopState)) {
+                scrollToSection(sectionId, null, { updateHistory: false });
+            }
+        };
+
+        if (!isCvPath(window.location.pathname)) {
+            syncFromLocation(false);
+        }
+
+        const handlePopState = () => syncFromLocation(true);
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, []);
+
+    const openResume = () => {
+        if (!isCvPath(window.location.pathname)) {
+            previousPathRef.current = window.location.pathname || '/';
+            window.history.pushState({ modal: 'cv' }, '', '/cv');
+        }
+        setIsResumeOpen(true);
+    };
+
+    const closeResume = () => {
+        setIsResumeOpen(false);
+        if (isCvPath(window.location.pathname)) {
+            const returnPath = isCvPath(previousPathRef.current)
+                ? '/'
+                : previousPathRef.current;
+            window.history.replaceState(null, '', returnPath);
+        }
+    };
+
+    const handleSkipToContent = (event) => {
+        scrollToSection('conteudo-principal', event);
+        document.getElementById('conteudo-principal')?.focus();
+    };
 
     return (
         <>
@@ -79,13 +132,17 @@ function App() {
                     </script>
                 </Helmet>
 
-                <a className="skip-link" href="#conteudo-principal">
+                <a
+                    className="skip-link"
+                    href="/"
+                    onClick={handleSkipToContent}
+                >
                     Pular para o conteúdo principal
                 </a>
 
                 <Navbar />
 
-                <main id="conteudo-principal">
+                <main id="conteudo-principal" tabIndex={-1}>
                     <Home onOpenResume={openResume} />
                     <About />
                     <Skills />
@@ -98,7 +155,11 @@ function App() {
                 <BackToTop />
             </div>
 
-            <ResumeModal isOpen={isResumeOpen} onClose={closeResume} />
+            {isResumeOpen && (
+                <Suspense fallback={null}>
+                    <ResumeModal isOpen={isResumeOpen} onClose={closeResume} />
+                </Suspense>
+            )}
         </>
     );
 }

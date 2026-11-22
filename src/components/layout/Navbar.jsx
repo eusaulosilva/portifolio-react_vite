@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { navLinks, profileData } from '../data/content';
-import { useActiveSection } from '../hooks/useActiveSection';
+import { navLinks, profileData } from '../../data';
+import { useActiveSection } from '../../hooks/useActiveSection';
+import { scrollToSection } from '../../utils/scroll';
 
 const Navbar = () => {
     const [isNavExpanded, setIsNavExpanded] = useState(false);
@@ -8,6 +9,11 @@ const Navbar = () => {
     const { activeSection, scrollProgress, isScrolled } = useActiveSection(sectionIds);
 
     const closeMenu = () => setIsNavExpanded(false);
+
+    const handleNavigate = (sectionId, event) => {
+        scrollToSection(sectionId, event);
+        closeMenu();
+    };
 
     useEffect(() => {
         if (!isNavExpanded) return;
@@ -31,8 +37,8 @@ const Navbar = () => {
                 <div className="navbar-inner">
                     <a
                         className="navbar-brand-custom"
-                        href="#inicio"
-                        onClick={closeMenu}
+                        href="/inicio"
+                        onClick={(e) => handleNavigate('inicio', e)}
                         aria-label={`${profileData.name} - Voltar ao início`}
                     >
                         {profileData.brand}
@@ -45,7 +51,11 @@ const Navbar = () => {
                         onClick={() => setIsNavExpanded((prev) => !prev)}
                         aria-controls="navbarNav"
                         aria-expanded={isNavExpanded}
-                        aria-label={isNavExpanded ? 'Fechar menu de navegação' : 'Abrir menu de navegação'}
+                        aria-label={
+                            isNavExpanded
+                                ? 'Fechar menu de navegação'
+                                : 'Abrir menu de navegação'
+                        }
                     >
                         <span className="navbar-toggler-icon" />
                     </button>
@@ -61,8 +71,8 @@ const Navbar = () => {
                                     <li className="nav-item" key={link.id}>
                                         <a
                                             className={`nav-link ${isActive ? 'active' : ''}`}
-                                            href={link.href}
-                                            onClick={closeMenu}
+                                            href={link.path}
+                                            onClick={(e) => handleNavigate(link.id, e)}
                                             aria-current={isActive ? 'location' : undefined}
                                         >
                                             {link.label}

@@ -1,5 +1,6 @@
-import { navLinks, profileData, socialLinks } from '../data/content';
-import { SocialIcon } from './Icons';
+import { navLinks, profileData, socialLinks } from '../../data';
+import { scrollToSection } from '../../utils/scroll';
+import { SocialIcon } from '../ui/Icons';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -10,7 +11,11 @@ const Footer = () => {
         <footer className="footer-wrapper">
             <div className="footer-container">
                 <div className="footer-brand">
-                    <a href="#inicio" className="footer-brand-logo">
+                    <a
+                        href="/inicio"
+                        className="footer-brand-logo"
+                        onClick={(e) => scrollToSection('inicio', e)}
+                    >
                         {profileData.brand}
                         <span>{profileData.brandAccent}</span>
                     </a>
@@ -19,7 +24,11 @@ const Footer = () => {
 
                 <nav className="footer-nav-links" aria-label="Navegação do rodapé">
                     {footerNav.map((link) => (
-                        <a key={link.id} href={link.href}>
+                        <a
+                            key={link.id}
+                            href={link.path}
+                            onClick={(e) => scrollToSection(link.id, e)}
+                        >
                             {link.label}
                         </a>
                     ))}
@@ -43,7 +52,9 @@ const Footer = () => {
             </div>
 
             <div className="footer-bottom">
-                <p>&copy; {currentYear} {profileData.name}. Todos os direitos reservados.</p>
+                <p>
+                    &copy; {currentYear} {profileData.name}. Todos os direitos reservados.
+                </p>
             </div>
         </footer>
     );

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ArrowUpIcon } from './Icons';
+import { scrollToSection } from '../../utils/scroll';
+import { ArrowUpIcon } from '../ui/Icons';
 
 export default function BackToTop() {
     const [visible, setVisible] = useState(false);
@@ -22,7 +23,7 @@ export default function BackToTop() {
     }, []);
 
     const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        scrollToSection('inicio');
     };
 
     return (

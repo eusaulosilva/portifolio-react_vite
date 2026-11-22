@@ -26,10 +26,11 @@
 
 .resume-modal-shell {
   width: 100%;
-  max-width: 920px;
+  max-width: 1260px;
+  height: 92vh;
   max-height: 92vh;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
   background: #14141a;
   border: 1px solid rgba(192, 132, 252, 0.25);
   border-radius: 18px;
@@ -37,85 +38,84 @@
   overflow: hidden;
 }
 
-.resume-modal-toolbar {
+/* Painel Lateral Esquerdo (Desktop: sidebar fixa; Mobile: toolbar empilhada) */
+.resume-sidebar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'info close'
+    'body body'
+    'footer footer';
+  min-height: 0;
+  background: #101016;
+  border-right: 1px solid var(--cor-borda-vidro);
+}
+
+.resume-modal-toolbar-info {
+  grid-area: info;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 1rem 1.35rem;
-  background: #101015;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 1.25rem 0.5rem 1rem 1.25rem;
   border-bottom: 1px solid var(--cor-borda-vidro);
 }
 
 .resume-modal-toolbar-info h2 {
   font-family: var(--fonte-primaria);
-  font-size: 0.96rem;
-  margin: 0 0 0.2rem;
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
   color: var(--cor-secundaria);
 }
 
 .resume-modal-hint {
   display: block;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   color: var(--cor-texto-corpo);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.resume-modal-actions {
+.resume-sidebar-close-wrap {
+  grid-area: close;
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.resume-picker-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--cor-secundaria);
-  cursor: pointer;
-  padding: 0.48rem 0.9rem;
-  border-radius: 9px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--cor-borda-vidro);
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.resume-picker-toggle:hover,
-.resume-picker-toggle.is-open {
-  background: rgba(147, 34, 253, 0.16);
-  border-color: rgba(192, 132, 252, 0.45);
-  color: #ffffff;
+  align-items: flex-start;
+  padding: 1.25rem 1.25rem 1rem 0;
+  border-bottom: 1px solid var(--cor-borda-vidro);
 }
 
 .resume-btn-print {
+  width: 100%;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.55rem 1.15rem;
+  padding: 0.68rem 1.15rem;
   border-radius: 10px;
   border: 1px solid rgba(192, 132, 252, 0.45);
   background: linear-gradient(135deg, var(--cor-terciaria), var(--cor-quartenaria));
   color: #ffffff;
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   font-weight: 600;
+  white-space: nowrap;
   cursor: pointer;
+  box-shadow: 0 8px 20px rgba(147, 34, 253, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .resume-btn-print:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(147, 34, 253, 0.38);
+  box-shadow: 0 10px 24px rgba(147, 34, 253, 0.42);
 }
 
 .resume-btn-close {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
   border: 1px solid var(--cor-borda-vidro);
   background: rgba(255, 255, 255, 0.04);
@@ -130,32 +130,72 @@
   color: #fca5a5;
 }
 
-/* Seletor interativo de projetos */
-.resume-project-picker {
-  padding: 0.8rem 1.35rem;
-  background: #14141b;
-  border-bottom: 1px solid var(--cor-borda-vidro);
+.resume-sidebar-body {
+  grid-area: body;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1.15rem 1.25rem;
+}
+
+.resume-sidebar-footer {
+  grid-area: footer;
+  padding: 1rem 1.25rem 1.15rem;
+  border-top: 1px solid var(--cor-borda-vidro);
+  background: rgba(255, 255, 255, 0.015);
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+}
+
+.resume-sidebar-note {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--cor-texto-corpo);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Seletor interativo de projetos (Lista vertical limpa no desktop) */
+.resume-project-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.resume-picker-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.resume-picker-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cor-terciaria-clara);
+}
+
+.resume-picker-counter {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--cor-secundaria);
+  background: rgba(147, 34, 253, 0.16);
+  border: 1px solid rgba(192, 132, 252, 0.3);
+  border-radius: 999px;
+  padding: 0.12rem 0.55rem;
 }
 
 .resume-picker-presets {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.45rem;
-}
-
-.resume-picker-label {
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: var(--cor-texto-corpo);
-  margin-right: 0.25rem;
+  gap: 0.4rem;
 }
 
 .resume-preset-btn {
-  padding: 0.24rem 0.65rem;
+  padding: 0.28rem 0.68rem;
   border-radius: 999px;
   border: 1px solid var(--cor-borda-vidro);
   background: rgba(255, 255, 255, 0.03);
@@ -184,40 +224,41 @@
 
 .resume-picker-chips {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.45rem;
 }
 
 .resume-picker-chip {
-  display: inline-flex;
+  width: 100%;
+  display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.34rem 0.72rem;
-  border-radius: 8px;
+  gap: 0.65rem;
+  padding: 0.58rem 0.75rem;
+  border-radius: 10px;
   border: 1px solid var(--cor-borda-vidro);
   background: rgba(255, 255, 255, 0.025);
   color: var(--cor-texto-corpo);
-  font-size: 0.78rem;
-  font-weight: 500;
+  text-align: left;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 .resume-picker-chip:hover {
   border-color: rgba(192, 132, 252, 0.4);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--cor-secundaria);
 }
 
 .resume-picker-chip.selected {
-  background: rgba(147, 34, 253, 0.18);
-  border-color: rgba(192, 132, 252, 0.55);
+  background: rgba(147, 34, 253, 0.15);
+  border-color: rgba(192, 132, 252, 0.5);
   color: #ffffff;
 }
 
 .resume-chip-check {
-  width: 15px;
-  height: 15px;
-  border-radius: 4px;
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   display: inline-flex;
   align-items: center;
@@ -231,10 +272,51 @@
   color: #ffffff;
 }
 
+.resume-chip-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.resume-chip-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resume-chip-category {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--cor-texto-corpo);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  padding: 0.1rem 0.48rem;
+  flex-shrink: 0;
+}
+
+.resume-picker-chip.selected .resume-chip-category {
+  color: var(--cor-terciaria-clara);
+  background: rgba(147, 34, 253, 0.18);
+}
+
+/* Área direita da folha A4 */
 .resume-modal-body {
   overflow-y: auto;
   padding: 1.75rem;
-  background: #1d1d24;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(147, 34, 253, 0.08), transparent 55%),
+    #1b1b23;
+}
+
+.resume-sidebar-body,
+.resume-modal-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(192, 132, 252, 0.26) transparent;
 }
 
 /* ==========================================================================
@@ -642,6 +724,118 @@
 }
 
 /* Responsividade do modal na tela */
+@media (max-width: 1180px) {
+  .resume-modal-overlay {
+    padding: 1rem;
+  }
+
+  .resume-modal-shell {
+    grid-template-columns: 290px minmax(0, 1fr);
+  }
+
+  .resume-modal-body {
+    padding: 1.25rem;
+  }
+
+  .resume-paper {
+    padding: 11mm 12mm 10mm;
+  }
+}
+
+/* Mobile / tablets: mantém o layout empilhado (toolbar + opções acima, folha abaixo) */
+@media (max-width: 960px) {
+  .resume-modal-shell {
+    display: flex;
+    flex-direction: column;
+    max-width: 920px;
+    height: auto;
+    max-height: 92vh;
+  }
+
+  .resume-sidebar {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      'info footer close'
+      'body body body';
+    border-right: none;
+    border-bottom: 1px solid var(--cor-borda-vidro);
+    flex-shrink: 0;
+  }
+
+  .resume-modal-toolbar-info {
+    padding: 0.9rem 0.65rem 0.9rem 1.25rem;
+  }
+
+  .resume-sidebar-close-wrap {
+    align-items: center;
+    padding: 0.9rem 1.25rem 0.9rem 0;
+  }
+
+  .resume-sidebar-footer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.9rem 0.55rem 0.9rem 0;
+    border-top: none;
+    border-bottom: 1px solid var(--cor-borda-vidro);
+    background: transparent;
+  }
+
+  .resume-btn-print {
+    width: auto;
+    padding: 0.56rem 1rem;
+    font-size: 0.84rem;
+  }
+
+  .resume-sidebar-note {
+    display: none;
+  }
+
+  .resume-sidebar-body {
+    padding: 0.8rem 1.25rem;
+    background: #14141b;
+    max-height: 30vh;
+  }
+
+  .resume-project-picker {
+    gap: 0.6rem;
+  }
+
+  .resume-picker-chips {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.42rem;
+  }
+
+  .resume-picker-chip {
+    width: auto;
+    padding: 0.34rem 0.72rem;
+    gap: 0.42rem;
+    border-radius: 999px;
+  }
+
+  .resume-chip-check {
+    width: 15px;
+    height: 15px;
+    border-radius: 4px;
+  }
+
+  .resume-chip-title {
+    font-size: 0.76rem;
+  }
+
+  .resume-chip-category {
+    display: none;
+  }
+
+  .resume-modal-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 1.35rem;
+  }
+}
+
 @media (max-width: 860px) {
   .resume-paper {
     width: 100%;
@@ -667,6 +861,22 @@
     padding: 0.5rem;
   }
 
+  .resume-modal-toolbar-info {
+    padding: 0.8rem 0.5rem 0.8rem 1rem;
+  }
+
+  .resume-sidebar-footer {
+    padding: 0.8rem 0.45rem 0.8rem 0;
+  }
+
+  .resume-sidebar-close-wrap {
+    padding: 0.8rem 1rem 0.8rem 0;
+  }
+
+  .resume-sidebar-body {
+    padding: 0.7rem 1rem;
+  }
+
   .resume-modal-body {
     padding: 0.75rem;
   }
@@ -685,8 +895,19 @@
   }
 }
 
+@media (max-width: 520px) {
+  .resume-modal-hint {
+    display: none;
+  }
+
+  .resume-btn-print {
+    padding: 0.48rem 0.78rem;
+    font-size: 0.78rem;
+  }
+}
+
 /* ==========================================================================
-   IMPRESSÃO / EXPORTAÇÃO PDF (@page NATIVO COM RODAPÉ + PÁGINAS EM TODA FOLHA)
+   IMPRESSÃO / EXPORTAÇÃO PDF (@page NATIVO COM RODAPÉ EM TODA FOLHA)
    ========================================================================== */
 @media print {
   @page {
@@ -752,8 +973,7 @@
   }
 
   .no-print,
-  .resume-modal-toolbar,
-  .resume-project-picker,
+  .resume-sidebar,
   .resume-paper-footer {
     display: none !important;
   }
@@ -769,6 +989,9 @@
   }
 
   .resume-modal-shell {
+    display: block !important;
+    grid-template-columns: none !important;
+    height: auto !important;
     max-width: none !important;
     max-height: none !important;
     border: none !important;

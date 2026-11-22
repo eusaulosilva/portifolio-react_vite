@@ -1,5 +1,6 @@
-import { profileData, socialLinks } from '../data/content';
-import { ChevronDownIcon, SocialIcon } from '../components/Icons';
+import { ChevronDownIcon, SocialIcon } from '../components/ui/Icons';
+import { profileData, socialLinks } from '../data';
+import { scrollToSection } from '../utils/scroll';
 
 const Home = ({ onOpenResume }) => {
     return (
@@ -7,16 +8,15 @@ const Home = ({ onOpenResume }) => {
             <div className="hero-grid-pattern" aria-hidden="true" />
 
             <div className="container-conteudo">
-                <span className="hero-eyebrow">
-                    <span className="hero-eyebrow-dot" aria-hidden="true" />
-                    {profileData.eyebrow}
-                </span>
-
                 <h1 className="container-conteudo-titulo">{profileData.name}</h1>
                 <p className="titulo-destaque">{profileData.role}</p>
 
                 <div className="hero-cta-group">
-                    <a href="#projetos" className="hero-btn-primary">
+                    <a
+                        href="/projetos"
+                        className="hero-btn-primary"
+                        onClick={(e) => scrollToSection('projetos', e)}
+                    >
                         Ver Projetos
                     </a>
                     <button
@@ -59,8 +59,9 @@ const Home = ({ onOpenResume }) => {
             </div>
 
             <a
-                href="#sobre"
+                href="/sobre"
                 className="scroll-indicator"
+                onClick={(e) => scrollToSection('sobre', e)}
                 aria-label="Rolar para a seção Sobre mim"
             >
                 <ChevronDownIcon size={22} />

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getPathForSection, isCvPath, isProgrammaticScrolling } from '../utils/scroll';
 
 export function useActiveSection(sectionIds) {
     const [activeSection, setActiveSection] = useState(sectionIds[0] || '');
@@ -19,7 +20,19 @@ export function useActiveSection(sectionIds) {
                     .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
 
                 if (visibleEntries.length > 0) {
-                    setActiveSection(visibleEntries[0].target.id);
+                    const nextSection = visibleEntries[0].target.id;
+                    setActiveSection(nextSection);
+
+                    if (!isProgrammaticScrolling() && !isCvPath(window.location.pathname)) {
+                        const nextPath =
+                            nextSection === 'inicio' && window.location.pathname === '/'
+                                ? '/'
+                                : getPathForSection(nextSection);
+
+                        if (window.location.pathname !== nextPath || window.location.hash) {
+                            window.history.replaceState({ sectionId: nextSection }, '', nextPath);
+                        }
+                    }
                 }
             },
             {

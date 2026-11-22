@@ -1,12 +1,18 @@
-import Reveal from '../components/Reveal';
-import TimelineItem from '../components/TimelineItem';
-import { AwardIcon, BriefcaseIcon, DocumentIcon, GraduationCapIcon } from '../components/Icons';
+import { TimelineItem } from '../components/resume';
+import { Reveal } from '../components/ui';
+import {
+    AwardIcon,
+    BookOpenIcon,
+    BriefcaseIcon,
+    DocumentIcon,
+    GraduationCapIcon,
+} from '../components/ui/Icons';
 import {
     additionalInfoData,
     coursesData,
     educationData,
     experienceData,
-} from '../data/content';
+} from '../data';
 
 export default function Resume({ onOpenResume }) {
     return (
@@ -43,12 +49,17 @@ export default function Resume({ onOpenResume }) {
                             </div>
 
                             <div className="complementary-courses">
-                                <h4>Cursos Especializados</h4>
-                                <ul className="course-list">
+                                <div className="column-title column-title-sm">
+                                    <span className="icon-box">
+                                        <BookOpenIcon size={18} />
+                                    </span>
+                                    <h4>Cursos Especializados</h4>
+                                </div>
+
+                                <ul className="additional-info-list">
                                     {coursesData.map((curso) => (
                                         <li key={curso.id}>
-                                            <strong>{curso.title}</strong>
-                                            <span className="course-list-meta">{curso.meta}</span>
+                                            <strong>{curso.title}:</strong> {curso.meta}
                                         </li>
                                     ))}
                                 </ul>

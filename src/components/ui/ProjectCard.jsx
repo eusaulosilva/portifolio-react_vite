@@ -1,6 +1,22 @@
+import { scrollToSection } from '../../utils/scroll';
 import { ExternalLinkIcon, GitHubIcon, MailIcon } from './Icons';
 
-export default function ProjectCard({ title, category, description, techs, link, img, demo }) {
+export default function ProjectCard({
+    title,
+    category,
+    description,
+    techs,
+    link,
+    img,
+    demo,
+    recursiveDemo,
+    onRecursiveDemo,
+}) {
+    const handleRecursiveClick = (event) => {
+        event.preventDefault();
+        onRecursiveDemo?.();
+    };
+
     return (
         <article className="card project-card">
             <div className="project-card-media">
@@ -40,22 +56,35 @@ export default function ProjectCard({ title, category, description, techs, link,
                         </a>
                     )}
 
-                    {demo && (
+                    {demo && recursiveDemo ? (
                         <a
-                            href={demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href="/inicio"
+                            onClick={handleRecursiveClick}
                             className="btn-card btn-card-outline"
-                            aria-label={`Abrir demonstração do projeto ${title}`}
+                            aria-label={`Visualizar ${title} (volta ao topo da página)`}
                         >
                             <ExternalLinkIcon size={15} />
                             <span>Visualizar</span>
                         </a>
+                    ) : (
+                        demo && (
+                            <a
+                                href={demo}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-card btn-card-outline"
+                                aria-label={`Abrir demonstração do projeto ${title}`}
+                            >
+                                <ExternalLinkIcon size={15} />
+                                <span>Visualizar</span>
+                            </a>
+                        )
                     )}
 
                     {!link && !demo && (
                         <a
-                            href="#contato"
+                            href="/contato"
+                            onClick={(e) => scrollToSection('contato', e)}
                             className="btn-card btn-card-outline"
                             aria-label={`Solicitar detalhes sobre o projeto ${title}`}
                         >

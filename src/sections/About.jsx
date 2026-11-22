@@ -1,6 +1,6 @@
-import Reveal from '../components/Reveal';
-import { CodeIcon, DatabaseIcon, GraduationCapIcon } from '../components/Icons';
-import { aboutHighlights } from '../data/content';
+import { Reveal } from '../components/ui';
+import { CodeIcon, DatabaseIcon, GraduationCapIcon } from '../components/ui/Icons';
+import { aboutHighlights } from '../data';
 
 function HighlightIcon({ icon }) {
     switch (icon) {
