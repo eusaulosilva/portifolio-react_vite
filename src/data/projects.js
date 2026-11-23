@@ -90,14 +90,14 @@ export const projectsData = [
     },
     {
         id: "estudos-javascript",
-        title: "Estudos JavaScript",
-        resumeTitle: "Estudos JavaScript",
+        title: "Projeto JavaScript",
+        resumeTitle: "Projeto JavaScript (Central de Ferramentas)",
         category: "Front-end",
         description:
-            "Repositório dedicado ao estudo de algoritmos, lógica de programação e fundamentos da linguagem.",
+            "Central interativa com 15 calculadoras e utilitários em JavaScript puro, com busca instantânea, filtros por categoria, tema claro/escuro e testes com node:test.",
         resumeDescription:
-            "Repositório de estudos de algoritmos, lógica de programação e ES6+.",
-        techs: ["JavaScript", "Lógica", "ES6+"],
+            "Central interativa com 15 calculadoras e utilitários em Vanilla JS, HTML5 e CSS3, com busca, tema claro/escuro e testes automatizados em node:test.",
+        techs: ["JavaScript", "HTML5", "CSS3", "node:test"],
         link: "https://github.com/eusaulosilva/Projeto-JavaScript",
         demo: "https://projetojavascript2022.vercel.app/",
         img: "/img/estudos-javascript.webp",
