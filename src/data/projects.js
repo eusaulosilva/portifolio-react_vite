@@ -1,3 +1,11 @@
+import jobFinderImg from "../assets/projects/job-finder.webp";
+import dashboardSalariosImg from "../assets/projects/dashboard-salarios.webp";
+import portfolioPessoalImg from "../assets/projects/portfolio-pessoal.webp";
+import pobreokeImg from "../assets/projects/pobreoke.webp";
+import manscanImg from "../assets/projects/manscan.webp";
+import jogoAdivinhacaoImg from "../assets/projects/jogo-adivinhacao.webp";
+import estudosJavascriptImg from "../assets/projects/estudos-javascript.webp";
+
 export const projectCategories = ["Todos", "Full Stack", "Mobile", "Dados", "Front-end"];
 
 export const projectsData = [
@@ -12,7 +20,7 @@ export const projectsData = [
         techs: ["Node.js", "Express", "SQLite", "JavaScript"],
         link: "https://github.com/eusaulosilva/job-finder",
         demo: "https://job-finder-two-delta.vercel.app/",
-        img: "/img/job-finder.webp",
+        img: jobFinderImg,
         featuredInResume: true,
     },
     {
@@ -27,7 +35,7 @@ export const projectsData = [
         techs: ["Python", "Streamlit", "Pandas"],
         link: "https://github.com/eusaulosilva/imersao-dados-python-alura",
         demo: "https://imersaodados-python-2025-alura.streamlit.app/",
-        img: "/img/dashboard-salarios.webp",
+        img: dashboardSalariosImg,
         featuredInResume: true,
     },
     {
@@ -43,7 +51,7 @@ export const projectsData = [
         link: "https://github.com/eusaulosilva/portifolio-react_vite",
         demo: "https://eusaulosilva.com.br/",
         recursiveDemo: true,
-        img: "/img/portfolio-pessoal.webp",
+        img: portfolioPessoalImg,
         featuredInResume: true,
     },
     {
@@ -56,7 +64,7 @@ export const projectsData = [
         resumeDescription:
             "Sistema de gerenciamento de karaokê baseado na web, desenvolvido com React e Firebase para controle de filas e músicas em tempo real.",
         techs: ["React", "Firebase", "Tempo Real"],
-        img: "/img/pobreoke.webp",
+        img: pobreokeImg,
         featuredInResume: true,
     },
     {
@@ -70,7 +78,7 @@ export const projectsData = [
             "Aplicativo mobile para monitoramento da saúde masculina desenvolvido em Flutter e Firebase.",
         techs: ["Flutter", "Firebase", "Dart"],
         link: "https://github.com/eusaulosilva/manscanapp",
-        img: "/img/manscan.webp",
+        img: manscanImg,
         featuredInResume: false,
     },
     {
@@ -85,7 +93,7 @@ export const projectsData = [
         techs: ["JavaScript", "HTML5", "CSS3"],
         link: "https://github.com/eusaulosilva/Jogo-de-adivinha-o-numero",
         demo: "https://adivinheonumero-five.vercel.app/",
-        img: "/img/jogo-adivinhacao.webp",
+        img: jogoAdivinhacaoImg,
         featuredInResume: false,
     },
     {
@@ -100,7 +108,7 @@ export const projectsData = [
         techs: ["JavaScript", "HTML5", "CSS3", "node:test"],
         link: "https://github.com/eusaulosilva/Projeto-JavaScript",
         demo: "https://projetojavascript2022.vercel.app/",
-        img: "/img/estudos-javascript.webp",
+        img: estudosJavascriptImg,
         featuredInResume: false,
     },
 ];
