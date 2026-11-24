@@ -19,6 +19,10 @@ export function isProgrammaticScrolling() {
     return Date.now() < ignoreScrollSyncUntil;
 }
 
+export function clearProgrammaticScrolling() {
+    ignoreScrollSyncUntil = 0;
+}
+
 export function isCvPath(pathname) {
     const normalized = (pathname || '/').replace(/\/+$/, '').toLowerCase() || '/';
     return CV_PATHS.includes(normalized);
@@ -40,6 +44,11 @@ export function scrollToSection(sectionId, event, { updateHistory = true, replac
     }
 
     ignoreScrollSyncUntil = Date.now() + 800;
+
+    const targetSection = !sectionId || sectionId === 'conteudo-principal' ? 'inicio' : sectionId;
+    window.dispatchEvent(
+        new CustomEvent('portfolio:navigate', { detail: { sectionId: targetSection } })
+    );
 
     if (!sectionId || sectionId === 'inicio') {
         window.scrollTo({ top: 0, behavior: 'smooth' });

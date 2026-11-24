@@ -99,7 +99,7 @@
 .navbar .nav-link {
   display: inline-block;
   color: var(--cor-secundaria);
-  transition: color 0.25s ease;
+  transition: color 0.55s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 0.94rem;
   font-weight: 600;
   text-decoration: none;
@@ -112,11 +112,18 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 0;
+  width: 100%;
   height: 2px;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--cor-terciaria), var(--cor-terciaria-clara));
-  transition: width 0.35s ease;
+  box-shadow: 0 0 10px rgba(147, 34, 253, 0.45);
+  transform: scaleX(0);
+  transform-origin: left center;
+  opacity: 0;
+  will-change: transform, opacity;
+  transition:
+    transform 0.68s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.52s ease;
 }
 
 .navbar .nav-link:hover,
@@ -126,7 +133,8 @@
 
 .navbar .nav-link:hover::after,
 .navbar .nav-link.active::after {
-  width: 100%;
+  transform: scaleX(1);
+  opacity: 1;
 }
 
 .nav-item {
@@ -140,7 +148,7 @@
   height: 2px;
   background: linear-gradient(90deg, var(--cor-quartenaria), var(--cor-terciaria), var(--cor-terciaria-clara));
   box-shadow: 0 0 10px rgba(147, 34, 253, 0.6);
-  transition: width 0.1s linear;
+  transition: width 0.32s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
 
