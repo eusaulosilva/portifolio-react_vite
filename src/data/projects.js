@@ -21,7 +21,6 @@ export const projectsData = [
         link: "https://github.com/eusaulosilva/job-finder",
         demo: "https://job-finder-two-delta.vercel.app/",
         img: jobFinderImg,
-        featuredInResume: true,
     },
     {
         id: "dashboard-salarios",
@@ -36,7 +35,6 @@ export const projectsData = [
         link: "https://github.com/eusaulosilva/imersao-dados-python-alura",
         demo: "https://imersaodados-python-2025-alura.streamlit.app/",
         img: dashboardSalariosImg,
-        featuredInResume: true,
     },
     {
         id: "portfolio-pessoal",
@@ -52,7 +50,6 @@ export const projectsData = [
         demo: "https://eusaulosilva.com.br/",
         recursiveDemo: true,
         img: portfolioPessoalImg,
-        featuredInResume: true,
     },
     {
         id: "pobreoke",
@@ -65,7 +62,6 @@ export const projectsData = [
             "Sistema de gerenciamento de karaokê baseado na web, desenvolvido com React e Firebase para controle de filas e músicas em tempo real.",
         techs: ["React", "Firebase", "Tempo Real"],
         img: pobreokeImg,
-        featuredInResume: true,
     },
     {
         id: "manscan",
@@ -79,7 +75,6 @@ export const projectsData = [
         techs: ["Flutter", "Firebase", "Dart"],
         link: "https://github.com/eusaulosilva/manscanapp",
         img: manscanImg,
-        featuredInResume: false,
     },
     {
         id: "jogo-adivinhacao",
@@ -94,7 +89,6 @@ export const projectsData = [
         link: "https://github.com/eusaulosilva/Jogo-de-adivinha-o-numero",
         demo: "https://adivinheonumero-five.vercel.app/",
         img: jogoAdivinhacaoImg,
-        featuredInResume: false,
     },
     {
         id: "estudos-javascript",
@@ -109,6 +103,5 @@ export const projectsData = [
         link: "https://github.com/eusaulosilva/Projeto-JavaScript",
         demo: "https://projetojavascript2022.vercel.app/",
         img: estudosJavascriptImg,
-        featuredInResume: false,
     },
 ];

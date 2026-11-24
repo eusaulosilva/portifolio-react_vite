@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /cv/criar
+Disallow: /cv/builder
 
 Sitemap: https://eusaulosilva.com.br/sitemap.xml

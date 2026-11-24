@@ -10,6 +10,23 @@ export const experienceData = [
             "Otimização de fluxos de trabalho e padronização de documentos utilizando Excel e VBA.",
             "Extração e análise de indicadores operacionais para suporte à decisão e melhoria de processos.",
         ],
+        highlightsByProfile: {
+            geral: [
+                "Suporte administrativo a coordenações e lançamento de dados em sistemas acadêmicos.",
+                "Otimização de fluxos de trabalho e padronização de documentos utilizando Excel e VBA.",
+                "Extração e análise de indicadores operacionais para suporte à decisão e melhoria de processos.",
+            ],
+            dev: [
+                "Automação de rotinas, otimização de fluxos internos e padronização de documentos com Excel e VBA.",
+                "Operação, consistência e lançamento estruturado de dados em sistemas acadêmicos corporativos.",
+                "Extração de indicadores operacionais e suporte técnico-administrativo às coordenações de curso.",
+            ],
+            dados: [
+                "Extração e análise de indicadores operacionais para suporte à decisão e melhoria contínua de processos.",
+                "Estruturação de planilhas, padronização de bases e automação de fluxos de trabalho com Excel e VBA.",
+                "Validação e lançamento de dados em sistemas acadêmicos com foco em integridade e rastreabilidade.",
+            ],
+        },
     },
     {
         id: "bb-analista-dados",
@@ -22,6 +39,23 @@ export const experienceData = [
             "Extração, tratamento e visualização de dados utilizando Power BI, SQL e Excel Avançado.",
             "Identificação de padrões e tendências para otimização de processos internos.",
         ],
+        highlightsByProfile: {
+            geral: [
+                "Análise de indicadores financeiros e operacionais para apoio à tomada de decisão estratégica.",
+                "Extração, tratamento e visualização de dados utilizando Power BI, SQL e Excel Avançado.",
+                "Identificação de padrões e tendências para otimização de processos internos.",
+            ],
+            dev: [
+                "Extração e tratamento de dados com SQL e automação de rotinas de consolidação em Excel Avançado.",
+                "Mapeamento de padrões e gargalos operacionais para otimização de processos internos.",
+                "Construção de visualizações e painéis de indicadores financeiros e operacionais em Power BI.",
+            ],
+            dados: [
+                "Análise de indicadores financeiros e operacionais para apoio direto à tomada de decisão estratégica.",
+                "Extração, tratamento, modelagem e visualização de dados utilizando Power BI, SQL e Excel Avançado.",
+                "Identificação de padrões, desvios e tendências para otimização de processos internos.",
+            ],
+        },
     },
 ];
 
@@ -56,7 +90,7 @@ export const coursesData = [
         inProgress: true,
         meta: "Udemy • 32h • Em andamento",
         text: "React do Zero à Maestria (c/ hooks, router, API, Projetos) - Udemy (32h - em andamento).",
-        featuredInResume: true,
+        tags: ["dev", "frontend"],
     },
     {
         id: "js-node",
@@ -67,7 +101,7 @@ export const coursesData = [
         inProgress: false,
         meta: "Udemy • 24,5h • Concluído em 02/2026",
         text: "JavaScript do básico ao avançado (c/ Node.js e projetos) - Udemy (24,5h - conclusão em 02/2026).",
-        featuredInResume: true,
+        tags: ["dev", "fullstack"],
     },
     {
         id: "master-dax",
@@ -78,7 +112,7 @@ export const coursesData = [
         inProgress: false,
         meta: "Udemy • 17,5h • Concluído em 11/2025",
         text: "Master DAX - Power BI orientado a projeto - Udemy (17,5h - conclusão em 11/2025).",
-        featuredInResume: true,
+        tags: ["dados", "bi"],
     },
     {
         id: "copilot-studio",
@@ -87,9 +121,9 @@ export const coursesData = [
         workload: "",
         status: "Concluído",
         inProgress: false,
-        meta: "Alura",
+        meta: "Alura • Concluído",
         text: "Copilot Studio: Multiagentes - Alura.",
-        featuredInResume: false,
+        tags: ["automacao", "dados", "ia"],
     },
 ];
 
@@ -120,14 +154,79 @@ export const resumeProfiles = [
     {
         id: "geral",
         label: "Geral",
+        slug: "geral",
         role: "Desenvolvedor Full Stack & Analista de Dados",
-        projectIds: ["job-finder", "dashboard-salarios", "portfolio-pessoal", "pobreoke"],
-        skillOrder: ["Front-end & Mobile", "Back-end & Bancos", "Dados & Ferramentas"],
+        summaryHint: "Currículo completo com todos os projetos, cursos e skills do site",
+        projectsHeading: "Projetos em Destaque",
+        sectionOrder: ["experience", "education", "skills", "projects", "bottom"],
+        experienceOrder: ["udf-assistente", "bb-analista-dados"],
+        educationOrder: ["pos-ciencia-dados", "bacharelado-cc"],
+        skillGroups: [
+            {
+                label: "Desenvolvimento",
+                items: [
+                    "HTML5",
+                    "CSS3",
+                    "JavaScript",
+                    "TypeScript",
+                    "React",
+                    "Vite",
+                    "Angular",
+                    "Flutter",
+                ],
+            },
+            {
+                label: "Back-end & Outras",
+                items: ["Node.js", "APIs RESTful", "Python", "Java", "PHP", "Firebase"],
+            },
+            {
+                label: "Dados & Ferramentas",
+                items: [
+                    "PostgreSQL",
+                    "SQLite",
+                    "Power BI",
+                    "Streamlit",
+                    "Excel & VBA",
+                    "Git",
+                    "GitHub",
+                ],
+            },
+        ],
+        projectIds: [
+            "job-finder",
+            "dashboard-salarios",
+            "portfolio-pessoal",
+            "pobreoke",
+            "manscan",
+            "jogo-adivinhacao",
+            "estudos-javascript",
+        ],
+        courseIds: ["react-maestria", "js-node", "master-dax", "copilot-studio"],
     },
     {
-        id: "fullstack",
-        label: "Full Stack",
+        id: "dev",
+        label: "Dev",
+        slug: "dev",
         role: "Desenvolvedor Full Stack & Mobile",
+        summaryHint: "Ênfase em desenvolvimento Full Stack, Mobile, APIs e projetos web",
+        projectsHeading: "Projetos em Destaque",
+        sectionOrder: ["experience", "education", "skills", "projects", "bottom"],
+        experienceOrder: ["udf-assistente", "bb-analista-dados"],
+        educationOrder: ["pos-ciencia-dados", "bacharelado-cc"],
+        skillGroups: [
+            {
+                label: "Front-end & Mobile",
+                items: ["React", "JavaScript", "TypeScript", "Vite", "HTML5/CSS3", "Flutter"],
+            },
+            {
+                label: "Back-end & APIs",
+                items: ["Node.js", "Express", "APIs RESTful", "PostgreSQL", "SQLite", "Firebase"],
+            },
+            {
+                label: "Versionamento & Dados",
+                items: ["Git", "GitHub", "GitHub Actions", "Python", "Excel & VBA"],
+            },
+        ],
         projectIds: [
             "job-finder",
             "portfolio-pessoal",
@@ -135,13 +234,33 @@ export const resumeProfiles = [
             "manscan",
             "estudos-javascript",
         ],
-        skillOrder: ["Front-end & Mobile", "Back-end & Bancos", "Dados & Ferramentas"],
+        courseIds: ["react-maestria", "js-node"],
     },
     {
         id: "dados",
         label: "Dados & BI",
+        slug: "dados",
         role: "Analista de Dados & Business Intelligence",
+        summaryHint: "Ênfase em Power BI, SQL, Python, indicadores e análise de dados",
+        projectsHeading: "Projetos em Destaque",
+        sectionOrder: ["experience", "education", "skills", "projects", "bottom"],
+        experienceOrder: ["udf-assistente", "bb-analista-dados"],
+        educationOrder: ["pos-ciencia-dados", "bacharelado-cc"],
+        skillGroups: [
+            {
+                label: "BI & Análise de Dados",
+                items: ["Power BI", "DAX", "Python", "Pandas", "Streamlit", "Excel Avançado & VBA"],
+            },
+            {
+                label: "Bancos & Consultas",
+                items: ["SQL", "PostgreSQL", "SQLite", "Firebase"],
+            },
+            {
+                label: "Automação & Web",
+                items: ["JavaScript", "React", "Node.js", "APIs RESTful", "Git", "GitHub"],
+            },
+        ],
         projectIds: ["dashboard-salarios", "job-finder", "portfolio-pessoal"],
-        skillOrder: ["Dados & Ferramentas", "Back-end & Bancos", "Front-end & Mobile"],
+        courseIds: ["master-dax", "copilot-studio", "js-node"],
     },
 ];

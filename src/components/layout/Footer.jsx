@@ -1,11 +1,30 @@
+import { useRef } from 'react';
 import { navLinks, profileData, socialLinks } from '../../data';
 import { scrollToSection } from '../../utils/scroll';
 import { SocialIcon } from '../ui/Icons';
 
-const Footer = () => {
+const Footer = ({ onOpenBuilder }) => {
     const currentYear = new Date().getFullYear();
     const footerSocials = socialLinks.filter((item) => item.showInFooter);
     const footerNav = navLinks.filter((item) => item.id !== 'inicio');
+    const tapTrackerRef = useRef({ count: 0, lastAt: 0 });
+
+    // Acesso discreto ao /builder (3 toques/cliques rápidos no copyright, invisível para recrutadores)
+    const handleSecretTrigger = () => {
+        if (!onOpenBuilder) return;
+        const now = Date.now();
+        if (now - tapTrackerRef.current.lastAt > 900) {
+            tapTrackerRef.current = { count: 1, lastAt: now };
+            return;
+        }
+        const nextCount = tapTrackerRef.current.count + 1;
+        if (nextCount >= 3) {
+            tapTrackerRef.current = { count: 0, lastAt: 0 };
+            onOpenBuilder();
+        } else {
+            tapTrackerRef.current = { count: nextCount, lastAt: now };
+        }
+    };
 
     return (
         <footer className="footer-wrapper">
@@ -52,7 +71,7 @@ const Footer = () => {
             </div>
 
             <div className="footer-bottom">
-                <p>
+                <p onClick={handleSecretTrigger}>
                     &copy; {currentYear} {profileData.name}. Todos os direitos reservados.
                 </p>
             </div>

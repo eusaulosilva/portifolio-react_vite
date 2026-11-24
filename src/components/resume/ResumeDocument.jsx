@@ -1,10 +1,10 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
     additionalInfoData,
-    coursesData,
     educationData,
     experienceData,
     profileData,
+    resumeProfiles,
     resumeSkillGroups,
     socialLinks,
 } from '../../data';
@@ -68,35 +68,82 @@ function ProjectCardBlock({ project }) {
     );
 }
 
+function paginateByItem(container, maxPageHeight) {
+    const pages = [];
+    let currentPage = [];
+    let currentHeight = 0;
+
+    Array.from(container.children).forEach((el, index) => {
+        const style = window.getComputedStyle(el);
+        const marginTop = parseFloat(style.marginTop || '0');
+        const marginBottom = parseFloat(style.marginBottom || '0');
+        const blockHeight = el.offsetHeight;
+
+        const effectiveTop = currentPage.length === 0 ? 0 : marginTop;
+        const needed = effectiveTop + blockHeight + marginBottom;
+
+        if (currentPage.length > 0 && currentHeight + needed > maxPageHeight) {
+            pages.push(currentPage);
+            currentPage = [index];
+            currentHeight = blockHeight + marginBottom;
+        } else {
+            currentPage.push(index);
+            currentHeight += needed;
+        }
+    });
+
+    if (currentPage.length > 0) {
+        pages.push(currentPage);
+    }
+
+    return pages;
+}
+
 export default function ResumeDocument({
     selectedProjects,
-    roleTitle = profileData.role,
-    skillGroups = resumeSkillGroups,
+    selectedCourses = [],
+    profile = resumeProfiles[0],
     theme = 'purple',
     density = 'comfortable',
-    includeAllCourses = false,
     showAdditionalInfo = true,
 }) {
     const linkedin = socialLinks.find((item) => item.id === 'linkedin');
     const github = socialLinks.find((item) => item.id === 'github');
-    const visibleCourses = useMemo(
-        () =>
-            includeAllCourses
-                ? coursesData
-                : coursesData.filter((course) => course.featuredInResume),
-        [includeAllCourses]
-    );
 
-    const isDense = density === 'compact' || selectedProjects.length >= 5;
-    const useTwoColProjects =
-        selectedProjects.length >= 5 ||
-        (density === 'compact' && selectedProjects.length >= 4);
+    const isCompact = density === 'compact';
+    // Regra dos 4+ projetos: 1 a 3 = 1 coluna; 4 a 8 = grid de 2 colunas
+    const useTwoColProjects = selectedProjects.length >= 4;
 
-    // Blocos atômicos ordenados (títulos de seção ficam sempre agrupados ao 1º item para evitar títulos órfãos)
+    const skillGroups = profile.skillGroups || resumeSkillGroups;
+
+    const orderedExperiences = useMemo(() => {
+        const expOrder = profile.experienceOrder || [];
+        return [...experienceData]
+            .sort((a, b) => {
+                const idxA = expOrder.indexOf(a.id);
+                const idxB = expOrder.indexOf(b.id);
+                return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+            })
+            .map((exp) => ({
+                ...exp,
+                activeHighlights: exp.highlightsByProfile?.[profile.id] || exp.highlights,
+            }));
+    }, [profile]);
+
+    const orderedEducation = useMemo(() => {
+        const order = profile.educationOrder || [];
+        return [...educationData].sort((a, b) => {
+            const idxA = order.indexOf(a.id);
+            const idxB = order.indexOf(b.id);
+            return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+        });
+    }, [profile]);
+
+    // Quebra estritamente por ITEM individual (nunca trava seção inteira; título preso ao 1º item)
     const blocks = useMemo(() => {
         const list = [];
 
-        // 1. Cabeçalho editorial
+        // 1. Cabeçalho editorial fixo A4
         list.push({
             id: 'header',
             kind: 'header',
@@ -105,7 +152,7 @@ export default function ResumeDocument({
                     <header className="resume-doc-header">
                         <div className="resume-doc-identity">
                             <h1 className="resume-doc-name">{profileData.fullName}</h1>
-                            <p className="resume-doc-role">{roleTitle}</p>
+                            <p className="resume-doc-role">{profile.role || profileData.role}</p>
                         </div>
 
                         <ul className="resume-doc-contacts">
@@ -170,98 +217,108 @@ export default function ResumeDocument({
             ),
         });
 
-        // 2. Experiência Profissional (título + 1ª experiência juntos, depois cada item)
-        experienceData.forEach((exp, idx) => {
-            const entryNode = (
-                <div className="resume-entry">
-                    <div className="resume-entry-top">
-                        <div className="resume-entry-main">
-                            <h3>{exp.title}</h3>
-                            <span className="resume-entry-company">{exp.institution}</span>
-                        </div>
-                        <span
-                            className={`resume-entry-date ${exp.current ? 'is-current' : ''}`}
-                        >
-                            {exp.date.replace(' - ', ' – ')}
-                        </span>
-                    </div>
-                    <ul className="resume-bullets">
-                        {exp.highlights.map((bullet) => (
-                            <li key={bullet}>{bullet}</li>
-                        ))}
-                    </ul>
-                </div>
-            );
-
-            list.push({
-                id: `exp-${exp.id}`,
-                kind: idx === 0 ? 'section-start' : 'exp-item',
-                node:
-                    idx === 0 ? (
-                        <div className="resume-flow-section-start">
-                            <h2 className="resume-section-heading">Experiência Profissional</h2>
-                            {entryNode}
-                        </div>
-                    ) : (
-                        <div className="resume-flow-exp-item">{entryNode}</div>
-                    ),
-            });
-        });
-
-        // 3. Formação Acadêmica
-        educationData.forEach((edu, idx) => {
-            const eduNode = (
-                <div className="resume-entry">
-                    <div className="resume-entry-top">
-                        <h3>{edu.title}</h3>
-                        <span
-                            className={`resume-entry-date ${edu.current ? 'is-current' : ''}`}
-                        >
-                            {edu.date}
-                        </span>
-                    </div>
-                    <p className="resume-entry-org">{edu.institution}</p>
-                </div>
-            );
-
-            list.push({
-                id: `edu-${edu.id}`,
-                kind: idx === 0 ? 'section-start' : 'edu-item',
-                node:
-                    idx === 0 ? (
-                        <div className="resume-flow-section-start">
-                            <h2 className="resume-section-heading">Formação Acadêmica</h2>
-                            {eduNode}
-                        </div>
-                    ) : (
-                        <div className="resume-flow-edu-item">{eduNode}</div>
-                    ),
-            });
-        });
-
-        // 4. Competências Técnicas
-        list.push({
-            id: 'skills',
-            kind: 'section-start',
-            node: (
-                <section className="resume-flow-section-start">
-                    <h2 className="resume-section-heading">Competências Técnicas</h2>
-                    <div className="resume-skills-table">
-                        {skillGroups.map((group) => (
-                            <div key={group.label} className="resume-skill-row">
-                                <span className="resume-skill-cat">{group.label}</span>
-                                <span className="resume-skill-values">
-                                    {group.items.join('  •  ')}
-                                </span>
+        const addExperienceBlocks = () => {
+            orderedExperiences.forEach((exp, idx) => {
+                const entryNode = (
+                    <div className="resume-entry">
+                        <div className="resume-entry-top">
+                            <div className="resume-entry-main">
+                                <h3>{exp.title}</h3>
+                                <span className="resume-entry-company">{exp.institution}</span>
                             </div>
-                        ))}
+                            <span
+                                className={`resume-entry-date ${exp.current ? 'is-current' : ''}`}
+                            >
+                                {exp.date.replace(' - ', ' – ')}
+                            </span>
+                        </div>
+                        <ul className="resume-bullets">
+                            {exp.activeHighlights.map((bullet) => (
+                                <li key={bullet}>{bullet}</li>
+                            ))}
+                        </ul>
                     </div>
-                </section>
-            ),
-        });
+                );
 
-        // 5. Projetos em Destaque (em linhas individuais ou pares quando 2 colunas)
-        if (selectedProjects.length > 0) {
+                list.push({
+                    id: `exp-${exp.id}`,
+                    kind: idx === 0 ? 'section-start' : 'exp-item',
+                    node:
+                        idx === 0 ? (
+                            <div className="resume-flow-section-start">
+                                <h2 className="resume-section-heading">Experiência Profissional</h2>
+                                {entryNode}
+                            </div>
+                        ) : (
+                            <div className="resume-flow-exp-item">{entryNode}</div>
+                        ),
+                });
+            });
+        };
+
+        const addEducationBlocks = () => {
+            orderedEducation.forEach((edu, idx) => {
+                const eduNode = (
+                    <div className="resume-entry">
+                        <div className="resume-entry-top">
+                            <h3>{edu.title}</h3>
+                            <span
+                                className={`resume-entry-date ${edu.current ? 'is-current' : ''}`}
+                            >
+                                {edu.date}
+                            </span>
+                        </div>
+                        <p className="resume-entry-org">{edu.institution}</p>
+                    </div>
+                );
+
+                list.push({
+                    id: `edu-${edu.id}`,
+                    kind: idx === 0 ? 'section-start' : 'edu-item',
+                    node:
+                        idx === 0 ? (
+                            <div className="resume-flow-section-start">
+                                <h2 className="resume-section-heading">Formação Acadêmica</h2>
+                                {eduNode}
+                            </div>
+                        ) : (
+                            <div className="resume-flow-edu-item">{eduNode}</div>
+                        ),
+                });
+            });
+        };
+
+        const addSkillsBlocks = () => {
+            skillGroups.forEach((group, idx) => {
+                const isLast = idx === skillGroups.length - 1;
+                const rowNode = (
+                    <div className={`resume-skill-row ${isLast ? 'is-last-skill' : ''}`}>
+                        <span className="resume-skill-cat">{group.label}</span>
+                        <span className="resume-skill-values">
+                            {group.items.join('  •  ')}
+                        </span>
+                    </div>
+                );
+
+                list.push({
+                    id: `skill-${group.label}`,
+                    kind: idx === 0 ? 'section-start' : 'skill-item',
+                    node:
+                        idx === 0 ? (
+                            <div className="resume-flow-section-start">
+                                <h2 className="resume-section-heading">Competências Técnicas</h2>
+                                {rowNode}
+                            </div>
+                        ) : (
+                            rowNode
+                        ),
+                });
+            });
+        };
+
+        const addProjectsBlocks = () => {
+            if (selectedProjects.length === 0) return;
+
             const projectRows = [];
             if (useTwoColProjects) {
                 for (let i = 0; i < selectedProjects.length; i += 2) {
@@ -270,6 +327,8 @@ export default function ResumeDocument({
             } else {
                 selectedProjects.forEach((p) => projectRows.push([p]));
             }
+
+            const headingLabel = profile.projectsHeading || 'Projetos em Destaque';
 
             projectRows.forEach((row, idx) => {
                 const rowNode = (
@@ -288,7 +347,7 @@ export default function ResumeDocument({
                     node:
                         idx === 0 ? (
                             <div className="resume-flow-section-start">
-                                <h2 className="resume-section-heading">Projetos em Destaque</h2>
+                                <h2 className="resume-section-heading">{headingLabel}</h2>
                                 {rowNode}
                             </div>
                         ) : (
@@ -296,53 +355,150 @@ export default function ResumeDocument({
                         ),
                 });
             });
-        }
+        };
 
-        // 6. Cursos + Informações Adicionais
-        list.push({
-            id: 'bottom-columns',
-            kind: 'section-start',
-            node: (
-                <div
-                    className={`resume-flow-section-start resume-bottom-columns ${showAdditionalInfo ? '' : 'is-single-col'}`}
-                >
-                    <section className="resume-doc-section">
-                        <h2 className="resume-section-heading">Cursos</h2>
-                        <ul className="resume-courses-list">
-                            {visibleCourses.map((curso) => (
-                                <li key={curso.id}>
-                                    <strong>{curso.title}</strong>
-                                    <span>{curso.meta}</span>
-                                </li>
-                            ))}
+        // Cursos + Informações Adicionais: pareados linha a linha para quebrar por ITEM (sem vazio na folha 1)
+        const addBottomBlocks = () => {
+            const hasCourses = selectedCourses.length > 0;
+            if (!hasCourses && !showAdditionalInfo) return;
+
+            if (hasCourses && showAdditionalInfo) {
+                const rowCount = Math.max(selectedCourses.length, additionalInfoData.length);
+                for (let idx = 0; idx < rowCount; idx += 1) {
+                    const curso = selectedCourses[idx] || null;
+                    const info = additionalInfoData[idx] || null;
+
+                    list.push({
+                        id: `bottom-pair-${idx}`,
+                        kind: idx === 0 ? 'section-start' : 'bottom-pair-item',
+                        node: (
+                            <div className="resume-bottom-pair-row">
+                                <div className="resume-bottom-pair-col">
+                                    {idx === 0 && (
+                                        <h2 className="resume-section-heading">Cursos</h2>
+                                    )}
+                                    {curso && (
+                                        <div className="resume-course-single-item">
+                                            <strong>{curso.title}</strong>
+                                            <span>{curso.meta}</span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="resume-bottom-pair-col">
+                                    {idx === 0 && (
+                                        <h2 className="resume-section-heading">
+                                            Informações Adicionais
+                                        </h2>
+                                    )}
+                                    {info && (
+                                        <ul className="resume-bullets resume-additional-list">
+                                            <li>
+                                                <strong>{info.label}:</strong> {info.value}
+                                            </li>
+                                        </ul>
+                                    )}
+                                </div>
+                            </div>
+                        ),
+                    });
+                }
+                return;
+            }
+
+            if (hasCourses) {
+                selectedCourses.forEach((curso, idx) => {
+                    const itemNode = (
+                        <div className="resume-course-single-item">
+                            <strong>{curso.title}</strong>
+                            <span>{curso.meta}</span>
+                        </div>
+                    );
+                    list.push({
+                        id: `course-${curso.id}`,
+                        kind: idx === 0 ? 'section-start' : 'course-item',
+                        node:
+                            idx === 0 ? (
+                                <div className="resume-flow-section-start">
+                                    <h2 className="resume-section-heading">Cursos</h2>
+                                    {itemNode}
+                                </div>
+                            ) : (
+                                itemNode
+                            ),
+                    });
+                });
+            }
+
+            if (showAdditionalInfo) {
+                additionalInfoData.forEach((info, idx) => {
+                    const itemNode = (
+                        <ul className="resume-bullets resume-additional-list">
+                            <li>
+                                <strong>{info.label}:</strong> {info.value}
+                            </li>
                         </ul>
-                    </section>
+                    );
+                    list.push({
+                        id: `info-${info.id}`,
+                        kind: idx === 0 ? 'section-start' : 'info-item',
+                        node:
+                            idx === 0 ? (
+                                <div className="resume-flow-section-start">
+                                    <h2 className="resume-section-heading">
+                                        Informações Adicionais
+                                    </h2>
+                                    {itemNode}
+                                </div>
+                            ) : (
+                                itemNode
+                            ),
+                    });
+                });
+            }
+        };
 
-                    {showAdditionalInfo && (
-                        <section className="resume-doc-section">
-                            <h2 className="resume-section-heading">Informações Adicionais</h2>
-                            <ul className="resume-bullets resume-additional-list">
-                                {additionalInfoData.map((info) => (
-                                    <li key={info.id}>
-                                        <strong>{info.label}:</strong> {info.value}
-                                    </li>
-                                ))}
-                            </ul>
-                        </section>
-                    )}
-                </div>
-            ),
+        const sectionOrder = profile.sectionOrder || [
+            'experience',
+            'education',
+            'skills',
+            'projects',
+            'bottom',
+        ];
+
+        sectionOrder.forEach((sectionKey) => {
+            switch (sectionKey) {
+                case 'experience':
+                    addExperienceBlocks();
+                    break;
+                case 'education':
+                    addEducationBlocks();
+                    break;
+                case 'skills':
+                    addSkillsBlocks();
+                    break;
+                case 'projects':
+                    addProjectsBlocks();
+                    break;
+                case 'bottom':
+                    addBottomBlocks();
+                    break;
+                default:
+                    break;
+            }
         });
 
         return list;
     }, [
-        roleTitle,
+        profile,
         linkedin,
         github,
+        orderedExperiences,
+        orderedEducation,
         skillGroups,
         selectedProjects,
         useTwoColProjects,
-        visibleCourses,
+        selectedCourses,
         showAdditionalInfo,
     ]);
 
@@ -355,41 +511,11 @@ export default function ResumeDocument({
         const ruler = rulerRef.current;
         if (!container || !ruler) return;
 
-        // Usa offsetHeight (sempre em CSS px reais, imune ao transform: scale do zoom)
         const maxPageHeight = ruler.offsetHeight;
         if (!maxPageHeight || maxPageHeight < 200) return;
+        if (container.children.length !== blocks.length) return;
 
-        const blockEls = Array.from(container.children);
-        if (blockEls.length !== blocks.length) return;
-
-        const pages = [];
-        let currentPage = [];
-        let currentHeight = 0;
-
-        blockEls.forEach((el, index) => {
-            const style = window.getComputedStyle(el);
-            const marginTop = parseFloat(style.marginTop || '0');
-            const marginBottom = parseFloat(style.marginBottom || '0');
-            const blockHeight = el.offsetHeight;
-
-            // O primeiro bloco de uma folha não precisa do margin-top de separação entre seções
-            const effectiveMarginTop = currentPage.length === 0 ? 0 : marginTop;
-            const neededHeight = effectiveMarginTop + blockHeight + marginBottom;
-
-            if (currentPage.length > 0 && currentHeight + neededHeight > maxPageHeight) {
-                pages.push(currentPage);
-                currentPage = [index];
-                currentHeight = blockHeight + marginBottom;
-            } else {
-                currentPage.push(index);
-                currentHeight += neededHeight;
-            }
-        });
-
-        if (currentPage.length > 0) {
-            pages.push(currentPage);
-        }
-
+        const pages = paginateByItem(container, maxPageHeight);
         setPageSplits((prev) => {
             const nextKey = pages.map((p) => p.join(',')).join('|');
             const prevKey = prev ? prev.map((p) => p.join(',')).join('|') : '';
@@ -400,7 +526,7 @@ export default function ResumeDocument({
     useLayoutEffect(() => {
         computePages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [blocks, isDense, theme]);
+    }, [blocks, isCompact, theme]);
 
     useEffect(() => {
         let active = true;
@@ -417,14 +543,7 @@ export default function ResumeDocument({
             window.removeEventListener('resize', handleResize);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [blocks, isDense, theme]);
-
-    const themeClasses = [
-        isDense ? 'is-dense' : '',
-        theme === 'classic' ? 'theme-classic' : '',
-    ]
-        .filter(Boolean)
-        .join(' ');
+    }, [blocks, isCompact, theme]);
 
     const resolvedPages = useMemo(() => {
         if (!pageSplits) {
@@ -440,16 +559,23 @@ export default function ResumeDocument({
         return pageSplits;
     }, [pageSplits, blocks]);
 
+    const sheetClasses = [
+        isCompact ? 'is-compact' : '',
+        theme === 'classic' ? 'theme-classic' : '',
+    ]
+        .filter(Boolean)
+        .join(' ');
+
     return (
         <div
-            className={`resume-sheets-root ${themeClasses}`}
+            className={`resume-sheets-root ${sheetClasses}`}
             aria-label={`Currículo de ${profileData.fullName}`}
         >
-            {/* Régua oculta em mm exatos (260mm úteis dentro de A4 297mm com margens 12mm/16mm) */}
+            {/* Medidor oculto na escala fixa A4 (210mm, área útil 262mm) */}
             <div className="resume-measure-sandbox no-print" aria-hidden="true">
                 <div className="resume-a4-ruler" ref={rulerRef} />
                 <div
-                    className={`resume-paper resume-measure-paper ${themeClasses}`}
+                    className={`resume-paper resume-measure-paper ${sheetClasses}`}
                     ref={measureContainerRef}
                 >
                     {blocks.map((block) => (
@@ -460,12 +586,12 @@ export default function ResumeDocument({
                 </div>
             </div>
 
-            {/* Folhas A4 individuais renderizadas na tela e na impressão */}
+            {/* Folhas A4 fixas (210mm x 297mm) */}
             <div className="resume-sheets-stack">
                 {resolvedPages.map((pageIndices, pageIdx) => (
                     <article
                         key={`sheet-${pageIdx}`}
-                        className={`resume-paper resume-sheet ${themeClasses}`}
+                        className={`resume-paper resume-sheet ${sheetClasses}`}
                     >
                         <div className="resume-paper-content">
                             {pageIndices.map((blockIdx, posInPage) => {
@@ -481,7 +607,7 @@ export default function ResumeDocument({
                             })}
                         </div>
 
-                        {/* Rodapé da prévia de tela em cada folha (na impressão o @page assume) */}
+                        {/* Rodapé da prévia em cada folha A4 (na impressão o @page assume) */}
                         <footer className="resume-paper-footer">
                             <span>{profileData.fullName}</span>
                             <span>{profileData.siteDisplay}</span>

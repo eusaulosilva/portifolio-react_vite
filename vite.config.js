@@ -7,7 +7,17 @@ export default defineConfig({
     react(),
     Sitemap({
       hostname: 'https://eusaulosilva.com.br',
-      dynamicRoutes: ['/inicio', '/sobre', '/skills', '/projetos', '/curriculo', '/contato', '/cv'],
+      dynamicRoutes: [
+        '/inicio',
+        '/sobre',
+        '/skills',
+        '/projetos',
+        '/curriculo',
+        '/contato',
+        '/cv',
+        '/cv/dados',
+        '/cv/dev',
+      ],
       generateRobotsTxt: false,
     }),
   ],
