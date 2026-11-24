@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MODAL DE CURRÍCULO DINÂMICO (PRÉVIA A4 + SELETOR + IMPRESSÃO PDF)
+   MODAL DE CURRÍCULO DINÂMICO (FOLHAS A4 + SELETOR + IMPRESSÃO PDF)
    ========================================================================== */
 .resume-modal-overlay {
   position: fixed;
@@ -26,11 +26,11 @@
 
 .resume-modal-shell {
   width: 100%;
-  max-width: 1260px;
+  max-width: 1280px;
   height: 92vh;
   max-height: 92vh;
   display: grid;
-  grid-template-columns: 330px minmax(0, 1fr);
+  grid-template-columns: 336px minmax(0, 1fr);
   background: #14141a;
   border: 1px solid rgba(192, 132, 252, 0.25);
   border-radius: 18px;
@@ -38,7 +38,14 @@
   overflow: hidden;
 }
 
-/* Painel Lateral Esquerdo (Desktop: sidebar fixa; Mobile: toolbar empilhada) */
+/* Mantém foco e animações de botões sempre contidos dentro das bordas */
+.resume-modal-shell button:focus-visible,
+.resume-modal-shell a:focus-visible {
+  outline: 2px solid var(--cor-terciaria-clara);
+  outline-offset: -2px;
+}
+
+/* Painel Lateral Esquerdo (Desktop: sidebar fixa; Mobile: barra empilhada) */
 .resume-sidebar {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -48,6 +55,7 @@
     'body body'
     'footer footer';
   min-height: 0;
+  min-width: 0;
   background: #101016;
   border-right: 1px solid var(--cor-borda-vidro);
 }
@@ -58,20 +66,20 @@
   flex-direction: column;
   justify-content: center;
   min-width: 0;
-  padding: 1.25rem 0.5rem 1rem 1.25rem;
+  padding: 1.15rem 0.5rem 0.95rem 1.25rem;
   border-bottom: 1px solid var(--cor-borda-vidro);
 }
 
 .resume-modal-toolbar-info h2 {
   font-family: var(--fonte-primaria);
   font-size: 1rem;
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.22rem;
   color: var(--cor-secundaria);
 }
 
 .resume-modal-hint {
   display: block;
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   color: var(--cor-texto-corpo);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -81,9 +89,13 @@
 .resume-sidebar-close-wrap {
   grid-area: close;
   display: flex;
-  align-items: flex-start;
-  padding: 1.25rem 1.25rem 1rem 0;
+  align-items: center;
+  padding: 1.15rem 1.25rem 0.95rem 0;
   border-bottom: 1px solid var(--cor-borda-vidro);
+}
+
+.resume-mobile-options-toggle {
+  display: none;
 }
 
 .resume-btn-print {
@@ -101,13 +113,44 @@
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(147, 34, 253, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 18px rgba(147, 34, 253, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: filter 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .resume-btn-print:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(147, 34, 253, 0.42);
+  filter: brightness(1.08);
+  border-color: var(--cor-terciaria-clara);
+  box-shadow: 0 8px 22px rgba(147, 34, 253, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+.resume-btn-copy {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.54rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--cor-borda-vidro);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--cor-secundaria);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.resume-btn-copy:hover {
+  background: rgba(147, 34, 253, 0.14);
+  border-color: rgba(192, 132, 252, 0.45);
+  color: #ffffff;
+}
+
+.resume-btn-copy.is-copied {
+  background: rgba(34, 197, 94, 0.14);
+  border-color: rgba(74, 222, 128, 0.45);
+  color: #86efac;
 }
 
 .resume-btn-close {
@@ -133,33 +176,120 @@
 .resume-sidebar-body {
   grid-area: body;
   min-height: 0;
+  min-width: 0;
   overflow-y: auto;
-  padding: 1.15rem 1.25rem;
+  overflow-x: hidden;
+  padding: 1rem 1.2rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
 .resume-sidebar-footer {
   grid-area: footer;
-  padding: 1rem 1.25rem 1.15rem;
+  padding: 0.95rem 1.2rem 1.05rem;
   border-top: 1px solid var(--cor-borda-vidro);
   background: rgba(255, 255, 255, 0.015);
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.55rem;
+}
+
+.resume-footer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
 }
 
 .resume-sidebar-note {
   margin: 0;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--cor-texto-corpo);
   text-align: center;
   line-height: 1.4;
 }
 
-/* Seletor interativo de projetos (Lista vertical limpa no desktop) */
+/* Controles segmentados e linhas de configuração (sempre sem estouro de borda) */
+.resume-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.resume-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.resume-control-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--cor-borda-vidro);
+  flex-shrink: 0;
+}
+
+.resume-segmented {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.2rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--cor-borda-vidro);
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.resume-segmented-compact {
+  flex: 0 0 176px;
+}
+
+.resume-seg-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0.38rem 0.4rem;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--cor-texto-corpo);
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.resume-seg-btn:hover {
+  color: var(--cor-secundaria);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.resume-seg-btn.active {
+  background: rgba(147, 34, 253, 0.24);
+  border-color: rgba(192, 132, 252, 0.48);
+  color: #ffffff;
+}
+
+.resume-option-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+  min-width: 0;
+}
+
+/* Seletor interativo de projetos */
 .resume-project-picker {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.7rem;
+  min-width: 0;
 }
 
 .resume-picker-head {
@@ -170,37 +300,39 @@
 }
 
 .resume-picker-label {
-  font-size: 0.74rem;
+  font-size: 0.71rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--cor-terciaria-clara);
+  white-space: nowrap;
 }
 
 .resume-picker-counter {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: var(--cor-secundaria);
   background: rgba(147, 34, 253, 0.16);
   border: 1px solid rgba(192, 132, 252, 0.3);
   border-radius: 999px;
-  padding: 0.12rem 0.55rem;
+  padding: 0.1rem 0.52rem;
+  flex-shrink: 0;
 }
 
 .resume-picker-presets {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.38rem;
 }
 
 .resume-preset-btn {
-  padding: 0.28rem 0.68rem;
+  padding: 0.26rem 0.65rem;
   border-radius: 999px;
   border: 1px solid var(--cor-borda-vidro);
   background: rgba(255, 255, 255, 0.03);
   color: var(--cor-texto-corpo);
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
@@ -225,22 +357,25 @@
 .resume-picker-chips {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.4rem;
+  min-width: 0;
 }
 
 .resume-picker-chip {
   width: 100%;
+  min-width: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  padding: 0.58rem 0.75rem;
+  gap: 0.6rem;
+  padding: 0.5rem 0.72rem;
   border-radius: 10px;
   border: 1px solid var(--cor-borda-vidro);
   background: rgba(255, 255, 255, 0.025);
   color: var(--cor-texto-corpo);
   text-align: left;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .resume-picker-chip:hover {
@@ -256,8 +391,8 @@
 }
 
 .resume-chip-check {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   display: inline-flex;
@@ -282,7 +417,7 @@
 }
 
 .resume-chip-title {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -290,12 +425,12 @@
 }
 
 .resume-chip-category {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 600;
   color: var(--cor-texto-corpo);
   background: rgba(255, 255, 255, 0.05);
   border-radius: 999px;
-  padding: 0.1rem 0.48rem;
+  padding: 0.1rem 0.46rem;
   flex-shrink: 0;
 }
 
@@ -304,13 +439,91 @@
   background: rgba(147, 34, 253, 0.18);
 }
 
-/* Área direita da folha A4 */
-.resume-modal-body {
-  overflow-y: auto;
-  padding: 1.75rem;
+/* Painel direito: barra de zoom + área de rolagem das folhas A4 */
+.resume-preview-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
   background:
     radial-gradient(circle at 50% 0%, rgba(147, 34, 253, 0.08), transparent 55%),
     #1b1b23;
+}
+
+.resume-preview-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  padding: 0.62rem 1.35rem;
+  background: rgba(16, 16, 22, 0.75);
+  border-bottom: 1px solid var(--cor-borda-vidro);
+  flex-shrink: 0;
+}
+
+.resume-preview-status {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--cor-texto-corpo);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.resume-zoom-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.18rem;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--cor-borda-vidro);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.resume-zoom-btn {
+  padding: 0.24rem 0.52rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--cor-texto-corpo);
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.resume-zoom-btn:hover {
+  color: var(--cor-secundaria);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.resume-zoom-btn.active {
+  background: rgba(147, 34, 253, 0.24);
+  border-color: rgba(192, 132, 252, 0.45);
+  color: #ffffff;
+}
+
+.resume-zoom-readout {
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--cor-terciaria-clara);
+  padding: 0 0.45rem 0 0.35rem;
+  border-left: 1px solid var(--cor-borda-vidro);
+  margin-left: 0.12rem;
+  white-space: nowrap;
+}
+
+.resume-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 1.5rem 1.75rem 2.25rem;
 }
 
 .resume-sidebar-body,
@@ -319,31 +532,118 @@
   scrollbar-color: rgba(192, 132, 252, 0.26) transparent;
 }
 
+.resume-paper-stage {
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.resume-paper-scale {
+  width: fit-content;
+  position: relative;
+}
+
+/* ==========================================================================
+   PAGINAÇÃO VISUAL EM FOLHAS A4 SEPARADAS (210mm x 297mm)
+   ========================================================================== */
+.resume-sheets-root {
+  position: relative;
+}
+
+/* Medidor oculto em escala real A4 (não afeta layout nem scrollbars) */
+.resume-measure-sandbox {
+  position: absolute;
+  top: 0;
+  left: -99999px;
+  width: 210mm;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.resume-a4-ruler {
+  width: 1px;
+  height: 260mm;
+}
+
+.resume-measure-paper {
+  height: auto !important;
+  min-height: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.resume-sheets-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 /* ==========================================================================
    FOLHA A4 EDITORIAL (TELA)
    ========================================================================== */
 .resume-paper {
+  --cv-accent: #5b21b6;
+  --cv-accent-bright: #7c3aed;
+  --cv-accent-icon: #6d28d9;
+
   background: #ffffff;
   color: #0f172a;
   width: 210mm;
-  max-width: 100%;
+  height: 297mm;
   min-height: 297mm;
   margin: 0 auto;
-  padding: 13mm 15mm 11mm;
+  padding: 12mm 14mm 10.5mm;
   border-radius: 6px;
   box-shadow: 0 20px 56px rgba(0, 0, 0, 0.5);
   font-family: var(--fonte-secundaria), 'Segoe UI', Arial, sans-serif;
   line-height: 1.44;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   print-color-adjust: exact;
   -webkit-print-color-adjust: exact;
+}
+
+.resume-paper.theme-classic {
+  --cv-accent: #0f172a;
+  --cv-accent-bright: #334155;
+  --cv-accent-icon: #334155;
 }
 
 .resume-paper-content {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
+}
+
+/* Espaçamentos entre blocos paginados */
+.resume-block-header {
+  margin-top: 0;
+}
+
+.resume-block-section-start {
+  margin-top: 0.95rem;
+}
+
+.resume-block-header + .resume-block-section-start {
+  margin-top: 0;
+}
+
+.resume-block-exp-item {
+  margin-top: 0.72rem;
+}
+
+.resume-block-edu-item {
+  margin-top: 0.48rem;
+}
+
+.resume-block-proj-item {
+  margin-top: 0.48rem;
+}
+
+.resume-block.is-sheet-first {
+  margin-top: 0 !important;
 }
 
 /* Cabeçalho Editorial Alinhado à Esquerda + Contatos 3x2 */
@@ -373,7 +673,7 @@
 .resume-doc-role {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #5b21b6;
+  color: var(--cv-accent);
   margin: 0;
   letter-spacing: 0.01em;
 }
@@ -399,7 +699,7 @@
 }
 
 .resume-doc-contacts svg {
-  color: #6d28d9;
+  color: var(--cv-accent-icon);
   flex-shrink: 0;
 }
 
@@ -410,7 +710,7 @@
 }
 
 .resume-doc-contacts a:hover {
-  color: #5b21b6;
+  color: var(--cv-accent);
   text-decoration: underline;
 }
 
@@ -418,18 +718,20 @@
 .resume-header-divider {
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, #5b21b6 0%, #7c3aed 24%, #e2e8f0 24%, #e2e8f0 100%);
-  margin-bottom: 1rem;
+  background: linear-gradient(
+    90deg,
+    var(--cv-accent) 0%,
+    var(--cv-accent-bright) 24%,
+    #e2e8f0 24%,
+    #e2e8f0 100%
+  );
+  margin-bottom: 0.95rem;
   print-color-adjust: exact;
   -webkit-print-color-adjust: exact;
 }
 
 /* Seções editoriais */
 .resume-doc-section {
-  margin-bottom: 0.95rem;
-}
-
-.resume-doc-section:last-child {
   margin-bottom: 0;
 }
 
@@ -442,7 +744,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #5b21b6;
+  color: var(--cv-accent);
   margin: 0 0 0.5rem;
 }
 
@@ -454,18 +756,6 @@
 }
 
 /* Experiência & Formação */
-.resume-exp-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.resume-edu-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
 .resume-entry-top {
   display: flex;
   justify-content: space-between;
@@ -481,7 +771,8 @@
   gap: 0.15rem 0.5rem;
 }
 
-.resume-entry h4 {
+.resume-entry h3 {
+  font-family: var(--fonte-secundaria), 'Segoe UI', Arial, sans-serif;
   font-size: 0.84rem;
   font-weight: 700;
   color: #0f172a;
@@ -509,7 +800,7 @@
 }
 
 .resume-entry-date.is-current {
-  color: #5b21b6;
+  color: var(--cv-accent);
 }
 
 .resume-entry-org {
@@ -531,7 +822,7 @@
 }
 
 .resume-bullets li::marker {
-  color: #7c3aed;
+  color: var(--cv-accent-bright);
 }
 
 .resume-bullets strong {
@@ -575,51 +866,37 @@
   line-height: 1.42;
 }
 
-/* Projetos em Destaque */
-.resume-projects-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.48rem;
+/* Projetos em Destaque (linhas de 1 ou 2 colunas) */
+.resume-projects-row {
+  display: block;
 }
 
-.resume-projects-list.is-two-col {
+.resume-projects-row.is-two-col {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
-  gap: 0.45rem 1.35rem;
+  gap: 1.35rem;
 }
 
-.resume-projects-list.is-two-col .resume-project-title-wrap {
+.resume-projects-row.is-two-col .resume-project-title-wrap {
   flex-direction: column;
   gap: 0.05rem;
 }
 
-.resume-projects-list.is-two-col .resume-project-desc {
+.resume-projects-row.is-two-col .resume-project-desc {
   font-size: 0.72rem;
   line-height: 1.36;
 }
 
-.resume-paper.is-dense .resume-doc-section {
-  margin-bottom: 0.75rem;
-}
-
-.resume-paper.is-dense .resume-exp-list {
-  gap: 0.58rem;
-}
-
-.resume-paper.is-dense .resume-edu-list {
-  gap: 0.38rem;
-}
-
-.resume-paper.is-dense .resume-header-divider {
-  margin-bottom: 0.8rem;
+.resume-projects-row.is-two-col .resume-project-link {
+  font-size: 0.68rem;
 }
 
 .resume-project-head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 0.75rem;
+  gap: 0.65rem;
 }
 
 .resume-project-title-wrap {
@@ -627,9 +904,11 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.15rem 0.55rem;
+  min-width: 0;
 }
 
-.resume-project-item h4 {
+.resume-project-item h3 {
+  font-family: var(--fonte-secundaria), 'Segoe UI', Arial, sans-serif;
   font-size: 0.81rem;
   font-weight: 700;
   color: #0f172a;
@@ -642,20 +921,32 @@
   color: #64748b;
 }
 
+.resume-project-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 .resume-project-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.22rem;
+  gap: 0.2rem;
   font-size: 0.71rem;
   font-weight: 600;
-  color: #5b21b6;
+  color: var(--cv-accent);
   text-decoration: none;
   white-space: nowrap;
-  flex-shrink: 0;
 }
 
 .resume-project-link:hover {
   text-decoration: underline;
+}
+
+.resume-project-link-sep {
+  font-size: 0.72rem;
+  color: #cbd5e1;
 }
 
 .resume-project-desc {
@@ -665,16 +956,68 @@
   line-height: 1.42;
 }
 
+/* Modo compacto (ideal para encaixar em 1 folha A4) */
+.resume-paper.is-dense {
+  padding: 11mm 14mm 9.5mm;
+  line-height: 1.38;
+}
+
+.resume-paper.is-dense .resume-block-section-start {
+  margin-top: 0.68rem;
+}
+
+.resume-paper.is-dense .resume-block-exp-item {
+  margin-top: 0.5rem;
+}
+
+.resume-paper.is-dense .resume-block-edu-item {
+  margin-top: 0.34rem;
+}
+
+.resume-paper.is-dense .resume-block-proj-item {
+  margin-top: 0.38rem;
+}
+
+.resume-paper.is-dense .resume-doc-header {
+  gap: 0.45rem;
+  margin-bottom: 0.55rem;
+}
+
+.resume-paper.is-dense .resume-doc-name {
+  font-size: 1.46rem;
+}
+
+.resume-paper.is-dense .resume-header-divider {
+  margin-bottom: 0.7rem;
+}
+
+.resume-paper.is-dense .resume-section-heading {
+  margin-bottom: 0.38rem;
+}
+
+.resume-paper.is-dense .resume-bullets {
+  gap: 0.14rem;
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.resume-paper.is-dense .resume-skill-row {
+  padding: 0.2rem 0;
+}
+
+.resume-paper.is-dense .resume-courses-list {
+  gap: 0.32rem;
+}
+
 /* Rodapé dividido em 2 colunas */
 .resume-bottom-columns {
   display: grid;
   grid-template-columns: 1fr 1.12fr;
   gap: 1.5rem;
-  margin-top: 0.1rem;
 }
 
-.resume-bottom-columns .resume-doc-section {
-  margin-bottom: 0;
+.resume-bottom-columns.is-single-col {
+  grid-template-columns: 1fr;
 }
 
 .resume-courses-list {
@@ -710,9 +1053,9 @@
   gap: 0.28rem;
 }
 
-/* Rodapé discreto na prévia de tela */
+/* Rodapé discreto fixo na base de cada folha A4 na tela */
 .resume-paper-footer {
-  margin-top: 1rem;
+  margin-top: auto;
   padding-top: 0.55rem;
   border-top: 1px solid #e2e8f0;
   display: flex;
@@ -721,28 +1064,31 @@
   font-size: 0.67rem;
   color: #94a3b8;
   letter-spacing: 0.02em;
+  flex-shrink: 0;
 }
 
-/* Responsividade do modal na tela */
+/* ==========================================================================
+   RESPONSIVIDADE DO MODAL NA TELA
+   ========================================================================== */
 @media (max-width: 1180px) {
   .resume-modal-overlay {
     padding: 1rem;
   }
 
   .resume-modal-shell {
-    grid-template-columns: 290px minmax(0, 1fr);
+    grid-template-columns: 306px minmax(0, 1fr);
+  }
+
+  .resume-segmented-compact {
+    flex: 0 0 162px;
   }
 
   .resume-modal-body {
-    padding: 1.25rem;
-  }
-
-  .resume-paper {
-    padding: 11mm 12mm 10mm;
+    padding: 1.15rem;
   }
 }
 
-/* Mobile / tablets: mantém o layout empilhado (toolbar + opções acima, folha abaixo) */
+/* Mobile / tablets: layout empilhado com opções recolhíveis */
 @media (max-width: 960px) {
   .resume-modal-shell {
     display: flex;
@@ -754,9 +1100,10 @@
 
   .resume-sidebar {
     grid-template-columns: minmax(0, 1fr) auto auto;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto auto auto;
     grid-template-areas:
       'info footer close'
+      'toggle toggle toggle'
       'body body body';
     border-right: none;
     border-bottom: 1px solid var(--cor-borda-vidro);
@@ -764,45 +1111,116 @@
   }
 
   .resume-modal-toolbar-info {
-    padding: 0.9rem 0.65rem 0.9rem 1.25rem;
+    padding: 0.85rem 0.6rem 0.85rem 1.15rem;
   }
 
   .resume-sidebar-close-wrap {
     align-items: center;
-    padding: 0.9rem 1.25rem 0.9rem 0;
+    padding: 0.85rem 1.15rem 0.85rem 0;
   }
 
   .resume-sidebar-footer {
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    padding: 0.9rem 0.55rem 0.9rem 0;
+    padding: 0.85rem 0.5rem 0.85rem 0;
     border-top: none;
     border-bottom: 1px solid var(--cor-borda-vidro);
     background: transparent;
   }
 
+  .resume-footer-actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
   .resume-btn-print {
     width: auto;
-    padding: 0.56rem 1rem;
-    font-size: 0.84rem;
+    padding: 0.54rem 0.95rem;
+    font-size: 0.82rem;
+  }
+
+  .resume-btn-copy {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+  }
+
+  .resume-btn-copy-label {
+    display: none;
   }
 
   .resume-sidebar-note {
     display: none;
   }
 
+  .resume-mobile-options-toggle {
+    grid-area: toggle;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.68rem 1.15rem;
+    border: none;
+    background: rgba(255, 255, 255, 0.025);
+    color: var(--cor-secundaria);
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s ease;
+  }
+
+  .resume-mobile-options-toggle:hover,
+  .resume-mobile-options-toggle.is-open {
+    background: rgba(147, 34, 253, 0.12);
+  }
+
+  .resume-mobile-toggle-text {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.55rem;
+    font-size: 0.78rem;
+  }
+
+  .resume-mobile-toggle-text strong {
+    color: var(--cor-terciaria-clara);
+    font-weight: 700;
+  }
+
+  .resume-mobile-toggle-text span {
+    color: var(--cor-texto-corpo);
+  }
+
+  .resume-mobile-toggle-icon {
+    color: var(--cor-terciaria-clara);
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .resume-mobile-options-toggle.is-open .resume-mobile-toggle-icon {
+    transform: rotate(180deg);
+  }
+
   .resume-sidebar-body {
-    padding: 0.8rem 1.25rem;
+    display: none;
+    padding: 0.85rem 1.15rem 1rem;
     background: #14141b;
-    max-height: 30vh;
+    border-top: 1px solid var(--cor-borda-vidro);
+    max-height: 44vh;
   }
 
-  .resume-project-picker {
-    gap: 0.6rem;
+  .resume-sidebar-body.is-mobile-open {
+    display: flex;
   }
 
-  .resume-picker-chips {
+  .resume-segmented-compact {
+    flex: 0 0 184px;
+  }
+
+  .resume-picker-chips,
+  .resume-option-toggles {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.42rem;
@@ -829,17 +1247,46 @@
     display: none;
   }
 
-  .resume-modal-body {
+  .resume-preview-pane {
     flex: 1 1 auto;
     min-height: 0;
-    padding: 1.35rem;
+  }
+
+  .resume-preview-bar {
+    display: none;
+  }
+
+  .resume-modal-body {
+    padding: 1.25rem;
+  }
+
+  .resume-paper-stage,
+  .resume-paper-scale {
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+  }
+
+  .resume-sheets-stack {
+    gap: 16px;
+  }
+
+  .resume-paper.resume-sheet {
+    width: 100%;
+    max-width: 210mm;
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .resume-paper-footer {
+    margin-top: 1.2rem;
   }
 }
 
 @media (max-width: 860px) {
-  .resume-paper {
-    width: 100%;
-    min-height: auto;
+  .resume-paper.resume-sheet,
+  .resume-paper.resume-sheet.is-dense {
     padding: 1.5rem 1.25rem;
   }
 
@@ -849,7 +1296,7 @@
     gap: 0.3rem 1rem;
   }
 
-  .resume-projects-list.is-two-col,
+  .resume-projects-row.is-two-col,
   .resume-bottom-columns {
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -862,19 +1309,23 @@
   }
 
   .resume-modal-toolbar-info {
-    padding: 0.8rem 0.5rem 0.8rem 1rem;
+    padding: 0.8rem 0.45rem 0.8rem 0.95rem;
   }
 
   .resume-sidebar-footer {
-    padding: 0.8rem 0.45rem 0.8rem 0;
+    padding: 0.8rem 0.4rem 0.8rem 0;
   }
 
   .resume-sidebar-close-wrap {
-    padding: 0.8rem 1rem 0.8rem 0;
+    padding: 0.8rem 0.95rem 0.8rem 0;
+  }
+
+  .resume-mobile-options-toggle {
+    padding: 0.62rem 0.95rem;
   }
 
   .resume-sidebar-body {
-    padding: 0.7rem 1rem;
+    padding: 0.75rem 0.95rem 0.9rem;
   }
 
   .resume-modal-body {
@@ -903,6 +1354,17 @@
   .resume-btn-print {
     padding: 0.48rem 0.78rem;
     font-size: 0.78rem;
+  }
+
+  .resume-setting-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+  }
+
+  .resume-segmented-compact {
+    flex: none;
+    width: 100%;
   }
 }
 
@@ -974,6 +1436,8 @@
 
   .no-print,
   .resume-sidebar,
+  .resume-preview-bar,
+  .resume-measure-sandbox,
   .resume-paper-footer {
     display: none !important;
   }
@@ -988,9 +1452,16 @@
     animation: none !important;
   }
 
-  .resume-modal-shell {
+  .resume-modal-shell,
+  .resume-preview-pane,
+  .resume-modal-body,
+  .resume-paper-stage,
+  .resume-paper-scale,
+  .resume-sheets-root,
+  .resume-sheets-stack {
     display: block !important;
     grid-template-columns: none !important;
+    width: auto !important;
     height: auto !important;
     max-width: none !important;
     max-height: none !important;
@@ -999,25 +1470,31 @@
     box-shadow: none !important;
     background: transparent !important;
     overflow: visible !important;
-  }
-
-  .resume-modal-body {
     padding: 0 !important;
-    overflow: visible !important;
-    background: transparent !important;
+    margin: 0 !important;
+    gap: 0 !important;
+    transform: none !important;
   }
 
-  .resume-paper {
+  .resume-paper.resume-sheet,
+  .resume-paper.resume-sheet.is-dense {
     display: block !important;
     width: 100% !important;
     max-width: none !important;
-    min-height: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
+    overflow: visible !important;
     print-color-adjust: exact !important;
     -webkit-print-color-adjust: exact !important;
+  }
+
+  .resume-sheet + .resume-sheet {
+    break-before: page;
+    page-break-before: always;
   }
 
   .resume-paper-content {
@@ -1029,7 +1506,7 @@
     justify-content: space-between !important;
   }
 
-  .resume-projects-list.is-two-col {
+  .resume-projects-row.is-two-col {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
@@ -1041,6 +1518,10 @@
     grid-template-columns: 1fr 1.12fr !important;
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+
+  .resume-bottom-columns.is-single-col {
+    grid-template-columns: 1fr !important;
   }
 
   /* Proteção contra corte de blocos e títulos órfãos entre páginas */
@@ -1055,6 +1536,7 @@
     page-break-after: avoid;
   }
 
+  .resume-block,
   .resume-doc-header,
   .resume-entry,
   .resume-project-item,

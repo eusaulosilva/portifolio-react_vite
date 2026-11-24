@@ -15,7 +15,7 @@ export const experienceData = [
         id: "bb-analista-dados",
         date: "Fev 2024 - Dez 2025",
         current: false,
-        title: "Analista de dados (Estágio)",
+        title: "Analista de Dados (Estágio)",
         institution: "BB Administradora de Consórcios S.A.",
         highlights: [
             "Análise de indicadores financeiros e operacionais para apoio à tomada de decisão estratégica.",
@@ -113,5 +113,35 @@ export const additionalInfoData = [
         id: "representante",
         label: "Representante de Turma",
         value: "Mediação entre corpo discente e coordenação do curso na UDF.",
+    },
+];
+
+export const resumeProfiles = [
+    {
+        id: "geral",
+        label: "Geral",
+        role: "Desenvolvedor Full Stack & Analista de Dados",
+        projectIds: ["job-finder", "dashboard-salarios", "portfolio-pessoal", "pobreoke"],
+        skillOrder: ["Front-end & Mobile", "Back-end & Bancos", "Dados & Ferramentas"],
+    },
+    {
+        id: "fullstack",
+        label: "Full Stack",
+        role: "Desenvolvedor Full Stack & Mobile",
+        projectIds: [
+            "job-finder",
+            "portfolio-pessoal",
+            "pobreoke",
+            "manscan",
+            "estudos-javascript",
+        ],
+        skillOrder: ["Front-end & Mobile", "Back-end & Bancos", "Dados & Ferramentas"],
+    },
+    {
+        id: "dados",
+        label: "Dados & BI",
+        role: "Analista de Dados & Business Intelligence",
+        projectIds: ["dashboard-salarios", "job-finder", "portfolio-pessoal"],
+        skillOrder: ["Dados & Ferramentas", "Back-end & Bancos", "Front-end & Mobile"],
     },
 ];
